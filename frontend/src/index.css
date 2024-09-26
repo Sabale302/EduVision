@@ -15,8 +15,9 @@ html,body {
   padding-bottom: 50px;
 }
 
-.main-container h2 {
-  margin-bottom: auto;
+.main-container h1 {
+  margin-bottom: 20px;
+  font-weight: bold;
   color: #999edc;
 }
 
