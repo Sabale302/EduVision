@@ -1,21 +1,25 @@
-import { Helmet } from "react-helmet-async";
-import { ChatInterface } from "../components/chat-interface";
+import React from "react";
 
-const ChatPage = () => {
+const Chat = () => {
   return (
-    <div className="border-black w-auto">
-      <div className="p-5 rounded shadow-lg">
-        {/* Metadata Setup */}
-        <Helmet>
-            <title>AI Chat Analysis</title>
-            <meta name="description" content="Upload and analyze files with AI" />
-        </Helmet>
-
-        {/* Chat Interface */}
-        <ChatInterface />
-      </div>
-    </div>
+    <div
+      style={{
+        marginLeft: "250px", // Adds space on the left
+        width: "calc(100% - 250px)", // Ensures it fits the remaining width
+        height: "100vh", // Makes it full-screen height
+      }}
+      dangerouslySetInnerHTML={{
+        __html: `
+          <iframe
+            src="https://www.chatbase.co/chatbot-iframe/RA1DCg3ReDnD-ED0rjpU-"
+            width="100%"
+            style="height: 100%; min-height: 700px; border: none;"
+            frameborder="0"
+          ></iframe>
+        `,
+      }}
+    />
   );
 };
 
-export default ChatPage;
+export default Chat;

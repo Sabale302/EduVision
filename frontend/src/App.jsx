@@ -1,6 +1,6 @@
 import { CssBaseline, Toolbar } from "@mui/material";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { AuthProvider } from "./context/authContext"; // Import AuthProvider
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { AuthProvider } from "./context/authContext";
 import Sidebar from "./components/Sidebar";
 import AppBar from "./components/AppBar";
 import Home from "./pages/Home";
@@ -21,22 +21,28 @@ import Chat from "./pages/Chat";
 
 function AppContent() {
   const location = useLocation();
-  const hideSidebar = location.pathname === "/login" || location.pathname === "/signup";
+  const path = location.pathname.toLowerCase();
+  const hideSidebar = path === "/login" || path === "/signup";
 
   return (
     <div className="flex min-h-screen">
       <CssBaseline />
       {!hideSidebar && <Sidebar />}
       <div className="flex flex-col flex-grow bg-gray-100">
-        {!hideSidebar && <AppBar />}
-        {!hideSidebar && <Toolbar />}
-        <div className={hideSidebar ? "flex justify-center items-center h-screen" : "p-4"}>
+        {!hideSidebar ? (
+          <>
+            <AppBar />
+            <Toolbar />
+          </>
+        ) : null}
+        
+        <div className={hideSidebar ? "flex justify-center items-center h-screen w-full bg-gray-100" : "p-4"}>
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/manage-groups" element={<ManageGroups />} />
             <Route path="/manage-users" element={<ManageUsers />} />
-            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/faculty-information" element={<FacultyInformation />} />
             <Route path="/Report" element={<FacultyReport />} />
             <Route path="/placement-data" element={<PlacementData />} />
