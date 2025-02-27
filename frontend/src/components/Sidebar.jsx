@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Toolbar, Drawer, List, ListItem, ListItemIcon, ListItemText, Collapse } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Home as HomeIcon, Dashboard, BarChart, PersonAdd, ExpandLess, ExpandMore, Group, GroupAdd } from '@mui/icons-material';
+import { Home as HomeIcon, Dashboard, BarChart, PersonAdd, ExpandLess, ExpandMore, Group, GroupAdd, Chat } from '@mui/icons-material';
 import { useAuth } from '../context/authContext';
 
 
@@ -29,11 +29,11 @@ const theme = createTheme({
 const navigationItems = [
     { path: '/home', text: 'Home', icon: <HomeIcon />, pageId: 1 },
     { path: '/dashboard', text: 'Dashboard', icon: <Dashboard />, pageId: 2 },
+    { path: '/chat', text: 'Chat', icon: <Chat />, pageId: 6},
     { path: '/report', text: 'Report', icon: <BarChart />, pageId: 3 },
     { path: '/placement-data', text: 'Placement Data', icon: <BarChart />, pageId: 4 },
     { path: '/placement-form', text: 'Placement Form', icon: <BarChart />, pageId: 10 },
     { path: '/faculty-information', text: 'Faculty Information', icon: <BarChart />, pageId: 5 },
-    { path: '/login', text: 'Login', icon: <PersonAdd />, pageId: 6 }
 ];
 
 const masterSubItems = [

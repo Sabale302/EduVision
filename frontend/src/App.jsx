@@ -36,7 +36,13 @@ function AppContent() {
           </>
         ) : null}
         
-        <div className={hideSidebar ? "flex justify-center items-center h-screen w-full bg-gray-100" : "p-4"}>
+        <div 
+          style={{
+            marginLeft: hideSidebar ? "0px" : "250px", 
+            width: hideSidebar ? "100%" : "calc(100% - 250px)"
+          }}
+          className={hideSidebar ? "flex justify-center items-center h-screen w-full bg-gray-100" : "p-4"}
+        >
           <Routes>
             <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/home" element={<Home />} />
