@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import DatasetConfiguration from '../../backend/src/db_integration/DatasetConfiguration';
-import DatabaseConnection from '../../backend/src/db_integration/DatabaseConnection';
+import DatasetConfiguration from '../../../src/db_integration/DatasetConfiguration';
+import DatabaseConnection from '../../../src/db_integration/DatabaseConnection';
 
 const MainComponent = () => {
     const [step, setStep] = useState(1);

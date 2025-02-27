@@ -1,13 +1,12 @@
-/* eslint-disable no-unused-vars */
 import express from "express";
-import sequelize from "./config/dbConnect.js";
+import sequelize from "./src/config/dbConnect.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from 'body-parser';
-import Faculty from './models/facultyModel.js';
-import authRoutes from "./routes/authRoutes.js";
-import updateprofileRoutes from './routes/updateprofileRoutes.js';
-import rolePermissionsRoutes from './routes/rolePermissionsRoutes.js';
+import Faculty from './src/models/facultyModel.js';
+import authRoutes from "./src/routes/authRoutes.js";
+import updateprofileRoutes from './src/routes/updateprofileRoutes.js';
+import rolePermissionsRoutes from './src/routes/rolePermissionsRoutes.js';
 
 dotenv.config({ path: './.env' });
 
