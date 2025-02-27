@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { Toolbar, Drawer, List, ListItem, ListItemIcon, ListItemText, Collapse } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Home as HomeIcon, Dashboard, BarChart, PersonAdd, ExpandLess, ExpandMore, Group, GroupAdd } from '@mui/icons-material';
-
 import { useAuth } from '../context/authContext';
 
 
@@ -46,14 +45,11 @@ const masterSubItems = [
 const Sidebar = () => {
     const { permissions, loading } = useAuth();
     const [openMaster, setOpenMaster] = useState(false);
-
-
     const hasViewPermission = (pageId) => permissions[pageId]?.can_view === true;
-
-    if (loading) return <div>Loading...</div>;
-
     const anyMasterItemsVisible = masterSubItems.some(item => hasViewPermission(item.pageId));
 
+    if (loading) return <div>Loading Sidebar...</div>;
+    if (!permissions) return <div>Error loading permissions</div>;
 
 
     return (

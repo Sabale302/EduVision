@@ -22,7 +22,7 @@ export const savePermissions = async (req, res) => {
             return res.status(404).json({ message: 'Role not found' });
         }
 
-        const roleId = role.id;
+        const roleId = role.role_id;
 
         // Loop over each page and operation to save permissions
         for (const [pageId, operations] of Object.entries(rolePermissions)) {
@@ -56,24 +56,41 @@ export const savePermissions = async (req, res) => {
     }
 };
 
-
-
 export const getPermissions = async (req, res) => {
-    const { groupName } = req.params; // Capture groupName from URL parameter
+    const { groupName } = req.params;
+    console.log("Fetching permissions for role:", groupName);
 
     try {
-        // Find the role by name
-        const role = await Role.findOne({ where: { role_name: groupName } });
-        if (!role) {
-            return res.status(404).json({ message: 'Role not found' });
+        // Check if groupName is received correctly
+        if (!groupName) {
+            console.error("Error: groupName is undefined");
+            return res.status(400).json({ message: 'Invalid group name' });
         }
 
-        const roleId = role.id;
+        // Find the role by name
+        const role = await Role.findOne({ where: { role_name: groupName } });
+
+        if (!role) {
+            console.error(`Error: Role '${groupName}' not found`);
+            return res.status(404).json({ message: `Role '${groupName}' not found` });
+        }
+
+        console.log("Role found:", role);
+
+        // Ensure role ID is fetched correctly
+        const roleId = role.role_id;  
+        console.log("Role ID:", roleId);
 
         // Fetch permissions for the role
         const permissions = await Permission.findAll({ where: { role_id: roleId } });
 
-        // Format the permissions data to match the frontend's expected structure
+        if (!permissions || permissions.length === 0) {
+            console.warn(`Warning: No permissions found for role '${groupName}'`);
+        }
+
+        console.log("Permissions retrieved:", permissions);
+
+        // Format the permissions data
         const rolePermissions = {};
         permissions.forEach(permission => {
             rolePermissions[permission.page_id] = {
@@ -88,6 +105,6 @@ export const getPermissions = async (req, res) => {
         res.status(200).json({ rolePermissions });
     } catch (error) {
         console.error("Error fetching permissions:", error);
-        res.status(500).json({ message: 'Failed to fetch permissions' });
+        res.status(500).json({ message: 'Failed to fetch permissions', error: error.message });
     }
 };

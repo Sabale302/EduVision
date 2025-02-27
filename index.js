@@ -7,6 +7,7 @@ import Faculty from './src/models/facultyModel.js';
 import authRoutes from "./src/routes/authRoutes.js";
 import updateprofileRoutes from './src/routes/updateprofileRoutes.js';
 import rolePermissionsRoutes from './src/routes/rolePermissionsRoutes.js';
+import User from './src/models/userModel.js'
 
 dotenv.config({ path: './.env' });
 
@@ -31,6 +32,17 @@ sequelize.sync()
     .then(() => console.log('Database synced'))
     .catch(error => console.error('Error syncing database:', error));
 
+// Endpoint to count total users
+app.get('/api/total-users', async (req, res) => {
+    try {
+        const totalUsers = await User.count()
+        res.status(200).json({ totalUsers });
+    } catch (error) {
+        console.error('Error fetching total users:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 // Endpoint to receive faculty data
 app.post('/api/saveFacultyData', async (req, res, next) => {
     try {
@@ -39,14 +51,16 @@ app.post('/api/saveFacultyData', async (req, res, next) => {
         res.status(200).json({ message: 'Faculty data saved successfully', data: newFaculty });
     } catch (error) {
         console.error('Error saving faculty data:', error);
-        next(error); // Pass the error to the error handler
+        next(error); 
     }
 });
 
 // Global error handling middleware
-app.use((res) => {
-    res.status(500).json({ error: 'Server error' });
+app.use((err, req, res, next) => {
+    console.error("Error:", err.message || err);
+    res.status(500).json({ error: err.message || "Server error" });
 });
+
 
 // Start the server
 const PORT = 7002;

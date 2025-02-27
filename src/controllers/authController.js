@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from '../models/userModel.js'; // `User` is your Sequelize model
+import User from '../models/userModel.js'; 
 import process from 'process';
 
 

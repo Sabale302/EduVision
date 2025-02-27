@@ -8,7 +8,8 @@ import { dashboardCards } from '../components/DashboardCard';
 const Home = () => {
     const [totalUsers, setTotalUsers] = useState('Loading...');
     const cardsCount = dashboardCards.length;
-    const [setError] = useState(null);
+    const [ setError] = useState(null);
+
 
     // Fetch total users from the backend when the component mounts
     // Fetch total users from backend
@@ -28,9 +29,10 @@ const Home = () => {
                 console.error('Fetch error:', error);
             }
         };
-
+    
         fetchTotalUsers();
-    }, [setError]);
+    }, [setError]);  
+    
 
     const stats = [
         { title: 'Total Users', value: totalUsers, icon: Users, color: 'bg-blue-500' },
