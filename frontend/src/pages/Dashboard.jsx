@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from '../components/Card';
+import { Card, CardContent, CardHeader, Typography, Grid, Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { dashboardCards } from '../components/DashboardCard';
 
@@ -53,54 +53,54 @@ export const Dashboard = () => {
   };
 
   return (
-    <div className="border-black w-auto">
-      <div className="p-5 rounded shadow-lg">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 mb-2 text-slate-800 text-xl font-semibold">
-            Dashboard
-          </CardTitle>
-        </CardHeader>
+    <Box sx={{ width: '100%', padding: 3 }}>
+      {/* Dashboard Header */}
+      <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 3 }}>
+        Dashboard
+      </Typography>
 
-        <CardContent className="flex-grow space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {accessibleDashboards.map((card) => (
-              <Card
-                key={card.title}
-                className="bg-white hover:shadow-lg transition-shadow overflow-hidden"
-              >
-                <CardContent>
-                  <h3 className="text-gray-500 text-sm font-medium mb-2 text-center">
+      {/* Dashboard Cards Grid */}
+      <Grid container spacing={3}>
+        {accessibleDashboards.map((card) => (
+          <Grid item xs={12} sm={6} md={4} key={card.title}>
+            <Card sx={{ transition: '0.3s', '&:hover': { boxShadow: 6 } }}>
+              <CardHeader
+                title={
+                  <Typography variant="h6" align="center" sx={{ fontSize: 16, fontWeight: 500, color: 'gray' }}>
                     {card.title}
-                  </h3>
-                  {card.isPowerBI ? (
-                    // Render Power BI iframe if the card is a Power BI dashboard
-                    <iframe
-                      src={card.link}
-                      title={card.title}
-                      frameBorder="0"
-                      allowFullScreen
-                      className="w-full h-64" // Adjust height as needed
-                    ></iframe>
-                  ) : (
-                    // Render image with navigation for other dashboards
-                    <button
-                      onClick={() => handleDashboard(card.title)}
-                      className="w-full h-full"
-                    >
-                      <img
-                        src={card.link}
-                        alt={card.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </button>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </CardContent>
-      </div>
-    </div>
+                  </Typography>
+                }
+              />
+              <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                {card.isPowerBI ? (
+                  <iframe
+                    src={card.link}
+                    title={card.title}
+                    frameBorder="0"
+                    allowFullScreen
+                    style={{ width: '100%', height: '200px' }} // Adjust height as needed
+                  ></iframe>
+                ) : (
+                  <Button
+                    onClick={() => handleDashboard(card.title)}
+                    sx={{
+                      width: '100%',
+                      height: 200,
+                      padding: 0,
+                      borderRadius: 1,
+                      overflow: 'hidden',
+                      '& img': { width: '100%', height: '100%', objectFit: 'cover' },
+                    }}
+                  >
+                    <img src={card.link} alt={card.title} />
+                  </Button>
+                )}
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   );
 };
 
