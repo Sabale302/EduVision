@@ -81,7 +81,6 @@ const App = () => {
                     sx={{
                         flexGrow: 1,
                         p: 3,
-                        mt: '64px',
                         ml: '200px',
                     }}
                 >

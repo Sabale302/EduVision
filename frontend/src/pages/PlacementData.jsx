@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { Users } from 'lucide-react';
-import { CardContent } from '@mui/material';
+import { CardContent, CardHeader } from '@mui/material';
 import { useEffect } from 'react';
 
 const PlacementData = () => {
@@ -136,10 +136,10 @@ const PlacementData = () => {
         <div className="border-black w-auto">
             <div className="p-5 rounded shadow-lg">
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2 mb-2 text-slate-800 text-xl font-semibold">
+                    <h3 className="flex items-center gap-2 mb-2 text-slate-800 text-xl font-semibold">
                         <Users className="w-6 h-6" />
                         Placement Data
-                    </CardTitle>
+                    </h3>
                 </CardHeader>
 
                 <CardContent className="flex-grow space-y-6">
@@ -161,9 +161,9 @@ const PlacementData = () => {
                     {columns.length > 0 && (
                         <div className='shadow-md hover:shadow-lg transition-shadow rounded-lg'>
                             <CardHeader>
-                                <CardTitle className="text-xl font-semibold text-gray-800">
+                                <h3 className="text-xl font-semibold text-gray-800">
                                     Filters
-                                </CardTitle>
+                                </h3>
                             </CardHeader>
                             <CardContent className="flex-grow space-y-6">
                                 {/* Column Selection Dropdown */}

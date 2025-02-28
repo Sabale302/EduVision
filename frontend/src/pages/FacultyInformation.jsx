@@ -67,8 +67,12 @@ const FacultyInformation = () => {
 
     return (
         <div>
+            <Typography variant="h4" fontWeight="bold" color="text.primary">
+                Faculty Information
+            </Typography>
+            
             <Card sx={{ p: 3, maxWidth: 900, mx: 'auto', my: 4 }}>
-                <CardHeader title={<Typography variant="h5">Faculty Information</Typography>} />
+                <CardHeader title={<Typography variant="h5">Personal Information</Typography>} />
                 <CardContent>
                     <Grid container spacing={2}>
                         {renderInput("Faculty Name", "facultyName")}

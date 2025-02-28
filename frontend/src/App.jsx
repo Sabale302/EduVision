@@ -71,7 +71,9 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <AppContent />
+        <div className="h-screen flex">
+          <AppContent />
+        </div>
       </Router>
     </AuthProvider>
   );
