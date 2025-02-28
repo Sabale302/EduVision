@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { CssBaseline, Toolbar } from "@mui/material";
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/authContext";
@@ -19,6 +20,30 @@ import MainComponent from "./pages/MainComponent";
 import UpdateProfile from "./pages/updateProfile";
 import Chat from "./pages/Chat";
 
+const Chatbot = () => {
+  const location = useLocation();
+  const path = location.pathname.toLowerCase();
+  
+  // Hide chatbot on login and signup pages
+  const hideChatbot = path === "/login" || path === "/signup";
+
+  useEffect(() => {
+    if (!hideChatbot) {
+      const script = document.createElement("script");
+      script.src = "https://www.chatbase.co/embed.min.js";
+      script.setAttribute("chatbotId", "RA1DCg3ReDnD-ED0rjpU-");
+      script.defer = true;
+      document.body.appendChild(script);
+
+      return () => {
+        document.body.removeChild(script);
+      };
+    }
+  }, [hideChatbot]);
+
+  return null;
+};
+
 function AppContent() {
   const location = useLocation();
   const path = location.pathname.toLowerCase();
@@ -35,10 +60,10 @@ function AppContent() {
             <Toolbar />
           </>
         ) : null}
-        
-        <div 
+
+        <div
           style={{
-            marginLeft: hideSidebar ? "0px" : "250px", 
+            marginLeft: hideSidebar ? "0px" : "250px",
             width: hideSidebar ? "100%" : "calc(100% - 250px)"
           }}
           className={hideSidebar ? "flex justify-center items-center h-screen w-full bg-gray-100" : "p-4"}
@@ -63,6 +88,7 @@ function AppContent() {
           </Routes>
         </div>
       </div>
+      <Chatbot />
     </div>
   );
 }
