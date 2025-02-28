@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextField, Button, Radio, RadioGroup, FormControlLabel, FormLabel, FormControl, MenuItem, Select, InputLabel } from "@mui/material";
+import { Typography, TextField, Button, Radio, RadioGroup, FormControlLabel, FormLabel, FormControl, MenuItem, Select, InputLabel } from "@mui/material";
 
 const PlacementForm = () => {
     const [formData, setFormData] = useState({
@@ -57,7 +57,9 @@ const PlacementForm = () => {
 
     return (
         <div style={{ margin: "auto", padding: "20px" }}>
-            <h1 style={{ textAlign: "left", marginBottom: "20px" }}>Placement Information Form</h1>
+            <Typography variant="h4" fontWeight="bold" color="text.primary">
+                Placement Information Form            
+            </Typography>
             <form onSubmit={handleSubmit}>
                 <TextField fullWidth label="Full Name" name="fullName" value={formData.fullName} onChange={handleChange} margin="normal" />
                 <TextField fullWidth label="Email" name="email" type="email" value={formData.email} onChange={handleChange} margin="normal" />

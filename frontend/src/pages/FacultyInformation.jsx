@@ -67,11 +67,13 @@ const FacultyInformation = () => {
 
     return (
         <div>
-            <Typography variant="h4" fontWeight="bold" color="text.primary">
+            <Typography variant="h4" fontWeight="bold" color="text.primary"
+                        sx={{ p: 5.4 }}
+            >
                 Faculty Information
             </Typography>
             
-            <Card sx={{ p: 3, maxWidth: 900, mx: 'auto', my: 4 }}>
+            <Card sx={{ p: 3, maxWidth: 1100, mx: 'auto', my: 4 }}>
                 <CardHeader title={<Typography variant="h5">Personal Information</Typography>} />
                 <CardContent>
                     <Grid container spacing={2}>
@@ -92,7 +94,7 @@ const FacultyInformation = () => {
                 </CardContent>
             </Card>
 
-            <Card sx={{ p: 3, maxWidth: 900, mx: 'auto', my: 4 }}>
+            <Card sx={{ p: 3, maxWidth: 1100, mx: 'auto', my: 4 }}>
                 <CardHeader title={<Typography variant="h5">Address Information</Typography>} />
                 <CardContent>
                     <Grid container spacing={2}>
@@ -102,7 +104,7 @@ const FacultyInformation = () => {
                 </CardContent>
             </Card>
 
-            <Card sx={{ p: 3, maxWidth: 900, mx: 'auto', my: 4 }}>
+            <Card sx={{ p: 3, maxWidth: 1100, mx: 'auto', my: 4 }}>
                 <CardHeader title={<Typography variant="h5">Appointment Details</Typography>} />
                 <CardContent>
                     <Grid container spacing={2}>
@@ -118,7 +120,7 @@ const FacultyInformation = () => {
                 </CardContent>
             </Card>
 
-            <Card sx={{ p: 3, maxWidth: 900, mx: 'auto', my: 4 }}>
+            <Card sx={{ p: 3, maxWidth: 1100, mx: 'auto', my: 4 }}>
                 <CardHeader title={<Typography variant="h5">Pay Details</Typography>} />
                 <CardContent>
                     <Grid container spacing={2}>
@@ -128,7 +130,7 @@ const FacultyInformation = () => {
                 </CardContent>
             </Card>
 
-            <Card sx={{ p: 3, maxWidth: 900, mx: 'auto', my: 4 }}>
+            <Card sx={{ p: 3, maxWidth: 1100, mx: 'auto', my: 4 }}>
                 <CardHeader title={<Typography variant="h5">Bank Details</Typography>} />
                 <CardContent>
                     <Grid container spacing={2}>
@@ -139,7 +141,7 @@ const FacultyInformation = () => {
                 </CardContent>
             </Card>
 
-            <Card sx={{ p: 3, maxWidth: 900, mx: 'auto', my: 4 }}>
+            <Card sx={{ p: 3, maxWidth: 1100, mx: 'auto', my: 4 }}>
                 <CardHeader title={<Typography variant="h5">Approval Details</Typography>} />
                 <CardContent>
                     <Grid container spacing={2}>
@@ -152,7 +154,7 @@ const FacultyInformation = () => {
                 </CardContent>
             </Card>
 
-            <Card sx={{ p: 3, maxWidth: 900, mx: 'auto', my: 4 }}>
+            <Card sx={{ p: 3, maxWidth: 1100, mx: 'auto', my: 4 }}>
                 <CardHeader title={<Typography variant="h5">Publications and Research</Typography>} />
                 <CardContent>
                     <Grid container spacing={2}>
@@ -168,7 +170,7 @@ const FacultyInformation = () => {
                 </CardContent>
             </Card>
 
-            <Card sx={{ p: 3, maxWidth: 900, mx: 'auto', my: 4 }}>
+            <Card sx={{ p: 3, maxWidth: 1100, mx: 'auto', my: 4 }}>
                 <CardHeader title={<Typography variant="h5">Additional Details</Typography>} />
                 <CardContent>
                     <Grid container spacing={2}>
@@ -183,8 +185,9 @@ const FacultyInformation = () => {
                 </CardContent>
             </Card>
 
-            <Button onClick={saveInformation} variant="contained" color="primary" >
-            Save Information
+            <Button onClick={saveInformation} variant="contained" color="primary"
+                    sx={{ p: 2, width: 1100, ml: 5.7, mb: 5 }} >
+                Save Information
             </Button>
         </div>
     );

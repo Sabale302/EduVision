@@ -51,7 +51,8 @@ const FacultyReport = () => {
     ));
 
     return (
-        <div className="p-6 bg-white shadow-md rounded-lg">
+        <div className="p-6 bg-white shadow-md rounded-lg"
+             sx={{ pl: 5 }}>
             <h2 className="text-xl font-bold mb-4">Faculty Report Generation System</h2>
 
             <div className="flex gap-4 mb-4">
@@ -153,7 +154,6 @@ const FacultyReport = () => {
                 </table>
             </div>
         </div>
-
     );
 };
 
