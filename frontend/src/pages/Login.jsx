@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../components/Button';
 import { useAuth } from "../context/authContext";
-import { Input } from '../components/Input';
+import { TextField, Button, Typography, Paper, CircularProgress, Box } from '@mui/material';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false); // New state for loading
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { fetchPermissions } = useAuth();
 
@@ -31,7 +30,6 @@ const Login = () => {
             alert('Login successful!');
             localStorage.setItem('token', data.token);
 
-            // Safe JWT decoding
             let tokenPayload;
             try {
                 tokenPayload = JSON.parse(atob(data.token.split('.')[1]));
@@ -41,14 +39,12 @@ const Login = () => {
                 return;
             }
 
-            // Fetch permissions if function is available
             if (fetchPermissions && typeof fetchPermissions === 'function') {
                 await fetchPermissions(tokenPayload.role);
             } else {
                 console.warn("fetchPermissions function is not available.");
             }
 
-            // Redirect user
             navigate('/home');
         } catch (error) {
             console.error(error);
@@ -59,49 +55,50 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <h2 className="text-2xl font-semibold mb-8 text-center text-gray-800">Login</h2>
-            <form className="space-y-4" onSubmit={handleSubmit}>
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
-                    <Input
-                        type="text"
-                        name="username"
+        <Box className="min-h-screen flex items-center justify-center bg-gray-100">
+            <Paper elevation={3} sx={{ padding: 4, width: 350, textAlign: 'center' }}>
+                <Typography variant="h5" fontWeight="bold" gutterBottom>
+                    Login
+                </Typography>
+                <form onSubmit={handleSubmit}>
+                    <TextField
+                        fullWidth
+                        label="Username"
+                        variant="outlined"
+                        margin="normal"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        className="mt-1 block w-full rounded-lg border px-4 py-2.5 bg-gray-50 focus:bg-white focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none transition-colors"
                         required
                     />
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <Input
+                    <TextField
+                        fullWidth
+                        label="Password"
+                        variant="outlined"
                         type="password"
-                        name="password"
+                        margin="normal"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="mt-1 mb-6 block w-full px-4 py-2.5 bg-gray-50 focus:bg-white focus:border-blue-600 transition-colors"
                         required
                     />
-                </div>
-
-                <Button type="submit" className="w-full bg-blue-500 text-white rounded-lg hover:bg-blue-600" disabled={loading}>
-                    {loading ? "Logging in..." : "Login"}
-                </Button>
-            </form>
-
-            <div className="mt-4 text-center">
-                <p className="text-sm text-gray-600">
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        sx={{ marginTop: 2 }}
+                        disabled={loading}
+                    >
+                        {loading ? <CircularProgress size={24} /> : "Login"}
+                    </Button>
+                </form>
+                <Typography variant="body2" sx={{ marginTop: 2 }}>
                     Don't have an account?{' '}
-                    <button
-                        onClick={() => navigate('/signup')}
-                        className="text-blue-600 bg-white border-none hover:underline">
+                    <Button variant="text" onClick={() => navigate('/signup')}>
                         Sign up here
-                    </button>
-                </p>
-            </div>
-        </div>
+                    </Button>
+                </Typography>
+            </Paper>
+        </Box>
     );
 };
 

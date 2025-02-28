@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Input } from '../../frontend/src/components/Input';
-import { Button } from '../../frontend/src/components/Button';
-import { CardContent, CardHeader, CardTitle } from '../../frontend/src/components/Card';
+import { CardContent, CardHeader } from '@mui/material';
 
 const DatabaseConnection = ({ onBack }) => {
     const [host, setHost] = useState('');
@@ -37,28 +35,28 @@ const DatabaseConnection = ({ onBack }) => {
     return (
         <div className="database-connection">
             <CardHeader>
-                <CardTitle>Configure MySQL Database Connection</CardTitle>
+                <h3>Configure MySQL Database Connection</h3>
             </CardHeader>
             <CardContent>
                 <form onSubmit={handleSubmit}>
                     <label>Host *</label>
-                    <Input type="text" value={host} onChange={(e) => setHost(e.target.value)} className="w-full py-1 mt-2 mb-4 pl-2" required />
+                    <input type="text" value={host} onChange={(e) => setHost(e.target.value)} className="w-full py-1 mt-2 mb-4 pl-2" required />
 
                     <label>Port *</label>
-                    <Input type="number" value={port} onChange={(e) => setPort(e.target.value)} className="w-full py-1 mt-2 mb-4 pl-2" required />
+                    <input type="number" value={port} onChange={(e) => setPort(e.target.value)} className="w-full py-1 mt-2 mb-4 pl-2" required />
 
                     <label>Database Name *</label>
-                    <Input type="text" value={dbName} onChange={(e) => setDbName(e.target.value)} className="w-full py-1 mt-2 mb-4 pl-2" required />
+                    <input type="text" value={dbName} onChange={(e) => setDbName(e.target.value)} className="w-full py-1 mt-2 mb-4 pl-2" required />
 
                     <label>Database Username *</label>
-                    <Input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="w-full py-1 mt-2 mb-4 pl-2" required />
+                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="w-full py-1 mt-2 mb-4 pl-2" required />
 
                     <label>Database Password *</label>
-                    <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full py-1 mt-2 mb-4 pl-2" required />
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full py-1 mt-2 mb-4 pl-2" required />
 
                     <div className="mt-5">
-                        <Button type="button" onClick={onBack} className='bg-blue-500 hover:bg-blue-600 mr-5'>Back</Button>
-                        <Button type="submit" className='bg-green-500 hover:bg-green-600'>Finish</Button>
+                        <button type="button" onClick={onBack} className='bg-blue-500 hover:bg-blue-600 mr-5'>Back</button>
+                        <button type="submit" className='bg-green-500 hover:bg-green-600'>Finish</button>
                     </div>
                 </form>
             </CardContent>

@@ -1,8 +1,5 @@
 import { useState } from "react";
-import { Input } from "../components/Input";
-import { Button } from "../components/Button";
-import Select from "react-select";
-import languages from "../components/Languages"; // Import the language list
+import { TextField, Button, Radio, RadioGroup, FormControlLabel, FormLabel, FormControl, MenuItem, Select, InputLabel } from "@mui/material";
 
 const PlacementForm = () => {
     const [formData, setFormData] = useState({
@@ -45,8 +42,6 @@ const PlacementForm = () => {
         photo: null,
     });
 
-    const [selectedLanguages, setSelectedLanguages] = useState([]);
-
     const handleChange = (e) => {
         const { name, value, type } = e.target;
         setFormData({
@@ -60,211 +55,99 @@ const PlacementForm = () => {
         console.log("Form Submitted", formData);
     };
 
-    const handleFileChange = (e) => {
-        const { name, files } = e.target;
-        if (files.length) {
-            console.log(`File Uploaded: ${name}`, files[0]);
-        }
-    };
-
-    const handleLanguageChange = (selectedOptions) => {
-        setSelectedLanguages(selectedOptions || []);
-        console.log("Selected Languages:", selectedOptions);
-    };
-
     return (
-        <div className="border-black w-auto">
-            <div className="p-5 rounded shadow-lg">
-                <h1 className="text-2xl font-semibold text-center mb-5">
-                    Placement Information Form
-                </h1>
-                <form onSubmit={handleSubmit}>
-                    {[
-                        ["Full Name", "Email ID"],
-                        ["Mobile Number", "Alternate Mobile Number"],
-                        ["Roll No", "PRN No"],
-                        ["Parent Name", "Parent Mobile No"],
-                        ["Parent Occupation", "Your D.O.B"],
-                        ["Address", "City"],
-                    ].map((fields, idx) => (
-                        <div className="flex gap-4 mb-4" key={idx}>
-                            {fields.map((field) => (
-                                <div key={field} className="flex-1">
-                                    <label className="block mb-1">{field}:</label>
-                                    <Input
-                                        type={field === "Your D.O.B" ? "date" : "text"}
-                                        name={field}
-                                        value={formData[field]}
-                                        onChange={handleChange}
-                                        className="bg-white px-4 py-2 w-full border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-600"
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    ))}
+        <div style={{ margin: "auto", padding: "20px" }}>
+            <h1 style={{ textAlign: "left", marginBottom: "20px" }}>Placement Information Form</h1>
+            <form onSubmit={handleSubmit}>
+                <TextField fullWidth label="Full Name" name="fullName" value={formData.fullName} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="Email" name="email" type="email" value={formData.email} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="Mobile Number" name="mobile" value={formData.mobile} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="Alternate Mobile" name="alternateMobile" value={formData.alternateMobile} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="Roll No" name="rollNo" value={formData.rollNo} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="PRN No" name="prnNO" value={formData.prnNO} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="Parent Name" name="parentName" value={formData.parentName} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="Parent Mobile No" name="parentMobileNo" value={formData.parentMobileNo} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="Parent Occupation" name="parentOccupation" value={formData.parentOccupation} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="your D.O.B" name="yourDOB" value={formData.yourDOB} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="Address" name="address" value={formData.address} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="City" name="city" value={formData.city} onChange={handleChange} margin="normal" />
+                <FormControl fullWidth margin="normal">
+                    <InputLabel>Branch</InputLabel>
+                    <Select name="branch" value={formData.branch} onChange={handleChange}>
+                        <MenuItem value="CSE">Computer Science</MenuItem>
+                        <MenuItem value="ECE">Electronics & Communication</MenuItem>
+                        <MenuItem value="ME">Mechanical</MenuItem>
+                    </Select>
+                </FormControl>
+                <FormControl fullWidth margin="normal">
+                    <FormLabel>Gender</FormLabel>
+                    <RadioGroup row name="gender" value={formData.gender} onChange={handleChange}>
+                        <FormControlLabel value="Male" control={<Radio />} label="Male" />
+                        <FormControlLabel value="Female" control={<Radio />} label="Female" />
+                        <FormControlLabel value="Other" control={<Radio />} label="Other" />
+                    </RadioGroup>
+                </FormControl>
+                
+                <TextField fullWidth label="Year of Passing" name="yearOfPassing" value={formData.yearOfPassing} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="First Year/Direct Second Year" name="firstYearOrDirectSecondYear" value={formData.firstYearOrDirectSecondYear} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="SSC Percentage" name="sscPercentage" value={formData.sscPercentage} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="HSC Percentage" name="hscPercentage" value={formData.hscPercentage} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="Diploma Percentage" name="diplomaPercentage" value={formData.yearOfPassing} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="feSem1" name="feSem1" value={formData.feSem1} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="feSem2" name="feSem2" value={formData.feSem2} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="feSem3" name="feSem3" value={formData.feSem3} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="feSem4" name="feSem4" value={formData.feSem4} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="feSem5" name="feSem5" value={formData.feSem5} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="feSem6" name="feSem16" value={formData.feSem16} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="Active Backlogs" name="activeBacklogs" value={formData.activeBacklogs} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="Number of YD" name="numOfYD" value={formData.numOfYD} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="Career Objective" name="careerObjective" value={formData.careerObjective} onChange={handleChange} margin="normal" />
 
-                    <div className="flex gap-4 mb-4 items-center">
-                        {/* Branch Field */}
-                        <div className="flex-1">
-                            <label className="block mb-1 ">Branch:</label>
-                            <Input
-                                type="text"
-                                name="branch"
-                                value={formData.branch}
-                                onChange={handleChange}
-                                className="bg-white px-4 py-2 w-full border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-600"
-                            />
-                        </div>
+                <FormControl fullWidth margin="normal">
+                    <InputLabel>Interested in onCampus Placement</InputLabel>
+                    <Select name="relocate" value={formData.OncampusPlacement} onChange={handleChange}>
+                        <MenuItem value="Yes">Yes</MenuItem>
+                        <MenuItem value="No">No</MenuItem>
+                    </Select>
+                </FormControl>
 
-                        {/* Gender Field */}
-                        <div className="flex-1">
-                            <label className="block mb-1 ">Gender:</label>
-                            <div className="flex items-center gap-4">
-                                {/* Male */}
-                                <label className="flex items-center cursor-pointer">
-                                    <Input
-                                        type="radio"
-                                        name="gender"
-                                        value="Male"
-                                        checked={formData.gender === "Male"}
-                                        onChange={handleChange}
-                                        className="hidden"
-                                    />
-                                    <span
-                                        className={`w-5 h-5 rounded-full border-2 border-gray-400 flex justify-center items-center ${formData.gender === "Male" ? "bg-blue-600 border-blue-600" : ""
-                                            }`}
-                                    >
-                                        {formData.gender === "Male" && (
-                                            <span className="w-2.5 h-2.5 rounded-full bg-white"></span>
-                                        )}
-                                    </span>
-                                    <span className="ml-2">Male</span>
-                                </label>
-                                {/* Female */}
-                                <label className="flex items-center cursor-pointer">
-                                    <Input
-                                        type="radio"
-                                        name="gender"
-                                        value="Female"
-                                        checked={formData.gender === "Female"}
-                                        onChange={handleChange}
-                                        className="hidden"
-                                    />
-                                    <span
-                                        className={`w-5 h-5 rounded-full border-2 border-gray-400 flex justify-center items-center ${formData.gender === "Female" ? "bg-pink-500 border-pink-500" : ""
-                                            }`}
-                                    >
-                                        {formData.gender === "Female" && (
-                                            <span className="w-2.5 h-2.5 rounded-full bg-white"></span>
-                                        )}
-                                    </span>
-                                    <span className="ml-2">Female</span>
-                                </label>
-                                {/* Other */}
-                                <label className="flex items-center cursor-pointer">
-                                    <Input
-                                        type="radio"
-                                        name="gender"
-                                        value="Other"
-                                        checked={formData.gender === "Other"}
-                                        onChange={handleChange}
-                                        className="hidden"
-                                    />
-                                    <span
-                                        className={`w-5 h-5 rounded-full border-2 border-gray-400 flex justify-center items-center ${formData.gender === "Other" ? "bg-purple-600 border-purple-600" : ""
-                                            }`}
-                                    >
-                                        {formData.gender === "Other" && (
-                                            <span className="w-2.5 h-2.5 rounded-full bg-white"></span>
-                                        )}
-                                    </span>
-                                    <span className="ml-2">Other</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
+                <FormControl fullWidth margin="normal">
+                    <InputLabel>Interested in onCampus Training</InputLabel>
+                    <Select name="relocate" value={formData.onCampusTraining} onChange={handleChange}>
+                        <MenuItem value="Yes">Yes</MenuItem>
+                        <MenuItem value="No">No</MenuItem>
+                    </Select>
+                </FormControl>
 
+                <TextField fullWidth label="Offers held" name="offers" value={formData.offers} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="LinkedIn Account" name="linkedinAccount" value={formData.linkedinAccount} onChange={handleChange} margin="normal" />
+                
+                <FormControl fullWidth margin="normal">
+                    <InputLabel>Relocate</InputLabel>
+                    <Select name="relocate" value={formData.relocate} onChange={handleChange}>
+                        <MenuItem value="Yes">Yes</MenuItem>
+                        <MenuItem value="No">No</MenuItem>
+                    </Select>
+                </FormControl>
 
+                <TextField fullWidth label="Known Languages" name="techknown" value={formData.techknown} onChange={handleChange} margin="normal" />
+                <TextField fullWidth label="Known Languages" name="langknown" value={formData.langknown} onChange={handleChange} margin="normal" />
 
-                    {[
-                        ["Year Of Passing", "First Year/Direct Second Year"],
-                        ["SSC Percentage", "HSC Percentage"],
-                        ["Diploma Percentage", "feSem1"],
-                        ["feSem2", "seSem3"],
-                        ["seSem4", "teSem5"],
-                        ["teSem6", "Active Backlogs"],
-                        ["Number Of YD", "Career Objective"],
-                        ["Interested in onCampus Placement", "Interested in onCampus Training"],
-                        ["Offers held", "Linkedin Account"],
-                        ["Relocate", "Tech Known"],
-                    ].map((fields, idx) => (
-                        <div className="flex gap-4 mb-4" key={idx}>
-                            {fields.map((field) => (
-                                <div key={field} className="flex-1">
-                                    <label className="block mb-1">{field}:</label>
-                                    <Input
-                                        type={field === "Your D.O.B" ? "date" : "text"}
-                                        name={field}
-                                        value={formData[field]}
-                                        onChange={handleChange}
-                                        className="bg-white px-4 py-2 w-full border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-600"
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    ))}
-
-                    {/* Languages Known */}
-                    <div className="flex gap-4 mb-4 items-center">
-                        <div className="flex-1">
-                            <label className="block mb-2 font-semibold">Known Languages:</label>
-                            <Select
-                                options={languages} // The list of languages
-                                isMulti // Enables multi-select
-                                value={selectedLanguages} // Currently selected values
-                                onChange={handleLanguageChange} // Handle selection
-                                placeholder="Select programming languages..."
-                                className="react-select-container"
-                                classNamePrefix="react-select"
-                            />
-                        </div>
-                    </div>
-
-
-                    <div className="flex gap-4 mb-4 items-center">
-                        {/* CV Upload */}
-                        <div className="flex-1">
-                            <label className="block mb-1">Upload CV:</label>
-                            <Input
-                                type="file"
-                                name="cv"
-                                onChange={handleFileChange}
-                                accept=".pdf,.doc,.docx"
-                                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                            />
-                        </div>
-
-                        {/* Photo Upload */}
-                        <div className="flex-1">
-                            <label className="block mb-1">Upload Photo:</label>
-                            <Input
-                                type="file"
-                                name="photo"
-                                onChange={handleFileChange}
-                                accept="image/*"
-                                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                            />
-                        </div>
-                    </div>
-
-                    <Button
-                        type="submit"
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded mt-5"
-                    >
-                        Submit
-                    </Button>
-                </form>
-            </div>
+                
+                <Button variant="contained" component="label" fullWidth sx={{ mt: 2 }}>
+                    Upload CV
+                    <input type="file" hidden name="cv" onChange={handleChange} />
+                </Button>
+                
+                <Button variant="contained" component="label" fullWidth sx={{ mt: 2 }}>
+                    Upload Photo
+                    <input type="file" hidden name="photo" onChange={handleChange} />
+                </Button>
+                
+                <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>
+                    Submit
+                </Button>
+            </form>
         </div>
     );
 };

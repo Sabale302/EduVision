@@ -1,9 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import axios from 'axios';
-import { Button } from '../components/Button';
-import { Input } from '../components/Input';
-import { CardHeader, CardTitle } from '../components/Card';
 import { Users } from 'lucide-react';
 import { CardContent } from '@mui/material';
 import { useEffect } from 'react';
@@ -150,10 +147,10 @@ const PlacementData = () => {
                     <div className='shadow-md hover:shadow-lg transition-shadow rounded-lg'>
                         <CardContent className="flex-grow space-y-6">
                             <h2 className="mb-3">Upload Placement Data</h2>
-                            <Input type="file" onChange={handleFileChange} className="w-96 " />
-                            <Button onClick={handleFileUpload} className="my-5 bg-green-500 hover:bg-green-600">
+                            <input type="file" onChange={handleFileChange} className="w-96 " />
+                            <button onClick={handleFileUpload} className="my-5 bg-green-500 hover:bg-green-600">
                                 Upload
-                            </Button>
+                            </button>
                         </CardContent>
                     </div>
 
@@ -229,7 +226,7 @@ const PlacementData = () => {
 
                                                 {/* Value Input */}
                                                 {filter.operator !== 'between' ? (
-                                                    <Input
+                                                    <input
                                                         type="text"
                                                         name="value"
                                                         value={filter.value}
@@ -238,7 +235,7 @@ const PlacementData = () => {
                                                     />
                                                 ) : (
                                                     <>
-                                                        <Input
+                                                        <input
                                                             type="number"
                                                             name="range.min"
                                                             placeholder="Min Value"
@@ -246,7 +243,7 @@ const PlacementData = () => {
                                                             onChange={(e) => handleFilterChange(index, e)}
                                                             className="mr-2 mb-2 mt-2 ml-2 p-2 border border-gray-300 rounded-md bg-white"
                                                         />
-                                                        <Input
+                                                        <input
                                                             type="number"
                                                             name="range.max"
                                                             placeholder="Max Value"
@@ -269,26 +266,26 @@ const PlacementData = () => {
                                                 </select>
 
                                                 {/* Remove Filter Button */}
-                                                <Button onClick={() => removeFilter(index)} className="mr-5 bg-red-500 hover:bg-red-600">
+                                                <button onClick={() => removeFilter(index)} className="mr-5 bg-red-500 hover:bg-red-600">
                                                     Remove
-                                                </Button>
+                                                </button>
                                             </div>
                                         </div>
                                     ))}
                                 </div>
 
-                                <Button onClick={applyColumnChanges} className="mr-5 bg-yellow-500 mt-5 hover:bg-yellow-600">
+                                <button onClick={applyColumnChanges} className="mr-5 bg-yellow-500 mt-5 hover:bg-yellow-600">
                                     Apply Column Changes
-                                </Button>
-                                <Button onClick={addFilter} className="mr-5 bg-blue-500 hover:bg-blue-600">
+                                </button>
+                                <button onClick={addFilter} className="mr-5 bg-blue-500 hover:bg-blue-600">
                                     Add Filter
-                                </Button>
-                                <Button onClick={applyFilters} className="mr-5 bg-orange-500 hover:bg-orange-600">
+                                </button>
+                                <button onClick={applyFilters} className="mr-5 bg-orange-500 hover:bg-orange-600">
                                     Apply Filters
-                                </Button>
-                                <Button onClick={clearFilters} className="bg-red-500 hover:bg-red-600">
+                                </button>
+                                <button onClick={clearFilters} className="bg-red-500 hover:bg-red-600">
                                     Clear Filters
-                                </Button>
+                                </button>
                             </CardContent>
                         </div>
                     )}

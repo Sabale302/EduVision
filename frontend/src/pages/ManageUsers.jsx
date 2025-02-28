@@ -1,17 +1,31 @@
 import { useState, useEffect } from 'react';
-import { Button } from '../components/Button';
-import { Input } from '../components/Input';
-import { CardContent, CardHeader, CardTitle } from '../components/Card';
-import { Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import {
+    Button,
+    TextField,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
+    Box,
+    Pagination,
+    IconButton,
+    CircularProgress
+} from '@mui/material';
+import { Users } from 'lucide-react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const ManageUsers = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
-
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 8;
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -53,102 +67,57 @@ const ManageUsers = () => {
     };
 
     if (loading) {
-        return <p>Loading...</p>;
+        return <CircularProgress sx={{ display: 'block', margin: 'auto', mt: 4 }} />;
     }
 
     return (
-        <div className="border-black w-auto">
-            <div className="p-5 rounded shadow-lg">
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2 mb-2 text-slate-800 text-xl font-semibold">
-                        <Users className="w-6 h-6" />
-                        Manage Users
-                    </CardTitle>
-                </CardHeader>
+        <Box sx={{ padding: 4 }}>
+            <Paper elevation={3} sx={{ padding: 4 }}>
+                <Typography variant="h5" fontWeight="bold" gutterBottom>
+                    <Users className="w-6 h-6" /> Manage Users
+                </Typography>
 
-                <CardContent className="flex-grow space-y-6">
-                    <div className="flex gap-4">
-                        <Input
-                            placeholder="Enter group to be added"
-                            className="px-4 py-2 w-96"
-                        />
-                        <Button
-                            className="bg-blue-500 hover:bg-blue-600 text-white px-8"
-                        >
-                            Search
-                        </Button>
-                    </div>
-                    {/* Users Table */}
-                    <div className="overflow-hidden rounded-lg border">
-                        <table className="w-full ">
-                            <thead>
-                                <tr className="bg-[#8165FC] text-white">
-                                    <th className="px-6 py-3 text-left w-96">User Name</th>
-                                    <th className="px-6 py-3 text-left w-96">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {currentUsers.map(user => (
-                                    <tr key={user.id} className="border-t">
-                                        <td className="px-6 py-4">{user.username}</td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex gap-2">
-                                                <Button
-                                                    onClick={() => handleEdit(user.id)}
-                                                    className="bg-teal-500 hover:bg-teal-600 text-white"
-                                                >
-                                                    Edit
-                                                </Button>
-                                                <Button
-                                                    onClick={() => handleDelete(user.id)}
-                                                    className="bg-red-500 hover:bg-red-600 text-white"
-                                                >
-                                                    Delete
-                                                </Button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                <Box display="flex" gap={2} sx={{ marginBottom: 2 }}>
+                    <TextField fullWidth label="Search user" variant="outlined" />
+                    <Button variant="contained" color="primary">Search</Button>
+                </Box>
 
-                    {/* Pagination */}
-                    <div className="flex justify-between items-center mt-9">
-                        <Button
-                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                            disabled={currentPage === 1}
-                            className="bg-blue-500 hover:bg-blue-600 text-white px-4"
-                        >
-                            Previous
-                        </Button>
-
-                        <div className="flex gap-2">
-                            {[...Array(totalPages)].map((_, index) => (
-                                <Button
-                                    key={index + 1}
-                                    onClick={() => setCurrentPage(index + 1)}
-                                    className={`px-4 ${currentPage === index + 1
-                                        ? 'bg-blue-500 text-white'
-                                        : 'bg-blue-500 text-white-700 hover:bg-blue-400'
-                                        }`}
-                                >
-                                    {index + 1}
-                                </Button>
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow sx={{ backgroundColor: '#8165FC' }}>
+                                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>User Name</TableCell>
+                                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Action</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {currentUsers.map(user => (
+                                <TableRow key={user.id}>
+                                    <TableCell>{user.username}</TableCell>
+                                    <TableCell>
+                                        <IconButton color="primary" onClick={() => handleEdit(user.id)}>
+                                            <EditIcon />
+                                        </IconButton>
+                                        <IconButton color="error" onClick={() => handleDelete(user.id)}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </TableCell>
+                                </TableRow>
                             ))}
-                        </div>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
 
-                        <Button
-                            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                            disabled={currentPage === totalPages}
-                            className="bg-blue-500 hover:bg-blue-600 text-white px-4"
-                        >
-                            Next
-                        </Button>
-                    </div>
-                </CardContent>
-            </div>
-        </div>
+                <Box display="flex" justifyContent="center" sx={{ marginTop: 3 }}>
+                    <Pagination
+                        count={totalPages}
+                        page={currentPage}
+                        onChange={(event, value) => setCurrentPage(value)}
+                        color="primary"
+                    />
+                </Box>
+            </Paper>
+        </Box>
     );
 };
 

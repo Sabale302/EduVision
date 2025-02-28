@@ -1,5 +1,5 @@
 import { Check, X } from 'lucide-react';
-import { CardHeader, CardTitle, CardContent } from '../components/Card';
+import { CardHeader, CardContent } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
@@ -125,7 +125,7 @@ const RolePermissionManager = () => {
             )}
             <div className="p-5 rounded shadow-lg">
                 <CardHeader>
-                    <CardTitle>Group Permissions Management</CardTitle>
+                    <h3>Group Permissions Management</h3>
                 </CardHeader>
                 <CardContent>
                     <div className="overflow-hidden rounded-lg border">

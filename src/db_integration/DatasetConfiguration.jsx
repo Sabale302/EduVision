@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Input } from '../../frontend/src/components/Input';
-import { Button } from '../../frontend/src/components/Button';
-import { CardContent, CardHeader, CardTitle } from '../../frontend/src/components/Card';
+import { CardContent, CardHeader} from "@mui/material";
 
 const DatasetConfiguration = ({ onContinue }) => {
     const [name, setName] = useState('');
@@ -20,13 +18,13 @@ const DatasetConfiguration = ({ onContinue }) => {
     return (
         <div className="dataset-configuration">
             <CardHeader>
-                <CardTitle className="text-xl font-semibold text-gray-800">Configure Dataset</CardTitle>
+                <h3 className="text-xl font-semibold text-gray-800">Configure Dataset</h3>
             </CardHeader>
             <CardContent className="flex-grow space-y-6">
                 <form onSubmit={handleSubmit}>
                     <label>
                         Name *
-                        <Input
+                        <input
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
@@ -37,7 +35,7 @@ const DatasetConfiguration = ({ onContinue }) => {
                     </label>
                     <label>
                         Description
-                        <Input
+                        <input
                             type="text"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
@@ -45,7 +43,7 @@ const DatasetConfiguration = ({ onContinue }) => {
                             className="w-full py-1 mt-2 mb-6 pl-2"
                         />
                     </label>
-                    <Button type="submit">Continue</Button>
+                    <button type="submit">Continue</button>
                 </form>
             </CardContent>
 

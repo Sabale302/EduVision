@@ -1,15 +1,7 @@
 import { useState, useEffect } from "react";
 import { Users, Award, BookOpen, FileText } from "lucide-react";
 import { Dashboard, Settings } from "@mui/icons-material";
-import {
-  Box,
-  Grid,
-  Typography,
-  Card,
-  CardContent,
-  Avatar,
-  Paper,
-} from "@mui/material";
+import { Box, Grid, Typography, Card, CardContent, Avatar, Paper,} from "@mui/material";
 import { dashboardCards } from "../components/DashboardCard";
 
 const Home = () => {

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../components/Button';
 
 const Signup = () => {
     const [username, setUsername] = useState('');
@@ -91,9 +90,9 @@ const Signup = () => {
                     </select>
                 </div>
 
-                <Button type="submit" className="w-full bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                <button type="submit" className="w-full bg-blue-500 text-white rounded-lg hover:bg-blue-600">
                     Signup
-                </Button>
+                </button>
             </form>
 
             {/* Link to Login page */}
