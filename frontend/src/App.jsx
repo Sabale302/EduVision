@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CssBaseline, Toolbar } from "@mui/material";
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/authContext";
@@ -23,8 +23,6 @@ import Chat from "./pages/Chat";
 const Chatbot = () => {
   const location = useLocation();
   const path = location.pathname.toLowerCase();
-  
-  // Hide chatbot on login and signup pages
   const hideChatbot = path === "/login" || path === "/signup";
 
   useEffect(() => {
@@ -47,7 +45,13 @@ const Chatbot = () => {
 function AppContent() {
   const location = useLocation();
   const path = location.pathname.toLowerCase();
-  const hideSidebar = path === "/login" || path === "/signup";
+
+  // Ensuring sidebar visibility persists even after reload
+  const [hideSidebar, setHideSidebar] = useState(path === "/login" || path === "/signup");
+
+  useEffect(() => {
+    setHideSidebar(path === "/login" || path === "/signup");
+  }, [path]);
 
   return (
     <div className="flex min-h-screen">
