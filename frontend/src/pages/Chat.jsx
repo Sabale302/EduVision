@@ -4,8 +4,6 @@ const Chat = () => {
   return (
     <div
       style={{
-        marginLeft: "250px", // Adds space on the left
-        width: "calc(100% - 250px)", // Ensures it fits the remaining width
         height: "100vh", // Makes it full-screen height
       }}
       dangerouslySetInnerHTML={{
