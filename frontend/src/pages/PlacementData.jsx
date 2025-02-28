@@ -136,14 +136,13 @@ const PlacementData = () => {
         <div className="border-black w-auto">
             <div className="p-5 rounded shadow-lg">
                 <Card sx={{ mx: 5 }}>
-                    <CardHeader>
-                        <h3 className="flex items-center gap-2 mb-2 text-slate-800 text-xl font-semibold">
-                            <Users className="w-6 h-6" />
-                            Placement Data
-                        </h3>
-                    </CardHeader>
+                    <CardHeader
+                        avatar={<Users className="w-6 h-6 text-gray-600 flex items-center gap-2 mb-2 text-slate-800 text-xl font-semibold" />}
+                        title="Placement Data"
+                        titleTypographyProps={{ variant: "h6" }}
+                    />
 
-                    <CardContent className="flex-grow space-y-6">
+                    <CardContent className="flex-grow space-y-6 ">
                         {/* File input */}
                         <div className='shadow-md hover:shadow-lg transition-shadow rounded-lg'>
                             <CardContent className="flex-grow space-y-6">
