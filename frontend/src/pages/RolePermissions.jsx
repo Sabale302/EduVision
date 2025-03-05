@@ -1,7 +1,24 @@
-import { Check, X } from 'lucide-react';
-import { CardHeader, CardContent } from '@mui/material';
+import { Check, Clear } from '@mui/icons-material';
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import {
+    Card,
+    CardHeader,
+    CardContent,
+    Button,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
+    Box,
+    Pagination,
+    IconButton,
+    CircularProgress,
+} from '@mui/material';
 
 const RolePermissionManager = () => {
     const [operations] = useState([
@@ -22,28 +39,25 @@ const RolePermissionManager = () => {
         { id: 7, name: 'Manage Groups' },
         { id: 8, name: 'Manage Users' },
         { id: 9, name: 'DB Connection' },
-        {id:10, name:'Placement Form'},
+        { id: 10, name: 'Placement Form' },
     ]);
 
     const [rolePermissions, setRolePermissions] = useState({});
-    const [showPopup, setShowPopup] = useState({
-        visible: false,
-        success: true,
-        message: '',
-    });
+    const [loading, setLoading] = useState(false);
+    const [showPopup, setShowPopup] = useState({ visible: false, success: true, message: '' });
+    const [page, setPage] = useState(1);
+    const rowsPerPage = 5;
 
     const location = useLocation();
     const [groupName, setGroupName] = useState('');
 
-    // Retrieve groupName from location state
     useEffect(() => {
-        const newGroupName = location.state?.groupName || '';
-        setGroupName(newGroupName);
+        setGroupName(location.state?.groupName || '');
     }, [location.state]);
 
-    // Fetch role permissions from backend
     useEffect(() => {
         const fetchPermissions = async () => {
+            setLoading(true);
             try {
                 const response = await fetch(`http://localhost:7002/api/role-permissions/${groupName}`);
                 if (response.ok) {
@@ -54,13 +68,14 @@ const RolePermissionManager = () => {
                 }
             } catch (error) {
                 console.error('Error fetching permissions:', error);
+            } finally {
+                setLoading(false);
             }
         };
 
         if (groupName) fetchPermissions();
     }, [groupName]);
 
-    // Ensure all pages have default permissions
     useEffect(() => {
         setRolePermissions(prev => {
             const updatedPermissions = { ...prev };
@@ -90,6 +105,7 @@ const RolePermissionManager = () => {
     };
 
     const handleSaveChanges = async () => {
+        setLoading(true);
         try {
             const response = await fetch(`http://localhost:7002/api/role-permissions/${groupName}`, {
                 method: 'POST',
@@ -97,96 +113,110 @@ const RolePermissionManager = () => {
                 body: JSON.stringify({ rolePermissions }),
             });
 
-            const successMessage = response.ok
-                ? 'Permissions saved successfully!'
-                : 'Failed to save permissions. Please try again.';
-
-            setShowPopup({ visible: true, success: response.ok, message: successMessage });
+            setShowPopup({
+                visible: true,
+                success: response.ok,
+                message: response.ok ? 'Permissions saved successfully!' : 'Failed to save permissions. Try again.',
+            });
         } catch (error) {
             console.error('Error saving permissions:', error);
-            setShowPopup({ visible: true, success: false, message: 'An error occurred while saving permissions.' });
+            setShowPopup({ visible: true, success: false, message: 'Error while saving permissions.' });
         } finally {
+            setLoading(false);
             setTimeout(() => setShowPopup({ visible: false, success: true, message: '' }), 3000);
         }
     };
 
     return (
-        <div className="relative w-full">
+        <Box sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh', bgcolor: 'grey.100' }}>
             {showPopup.visible && (
-                <div
-                    className={`fixed bottom-0 left-1/2 transform -translate-x-1/2 mb-4 z-50 px-6 py-3 rounded shadow-lg text-center ${
-                        showPopup.success
-                            ? 'bg-green-100 border border-green-400 text-green-700'
-                            : 'bg-red-100 border border-red-400 text-red-700'
-                    }`}
+                <Paper
+                    sx={{
+                        position: 'fixed',
+                        bottom: 16,
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        px: 3,
+                        py: 2,
+                        borderRadius: 2,
+                        boxShadow: 3,
+                        textAlign: 'center',
+                        bgcolor: showPopup.success ? 'success.light' : 'error.light',
+                        color: showPopup.success ? 'success.dark' : 'error.dark',
+                    }}
                 >
                     {showPopup.message}
-                </div>
+                </Paper>
             )}
-            <div className="p-5 rounded shadow-lg">
-                <CardHeader>
-                    <h3>Group Permissions Management</h3>
-                </CardHeader>
+
+            <Typography variant="h5" fontWeight="bold" gutterBottom>
+                Permissions Management
+            </Typography>
+            <Card sx={{ width: '100%', borderRadius: 3, boxShadow: 4 }}>
                 <CardContent>
-                    <div className="overflow-hidden rounded-lg border">
-                        <table className="w-full">
-                            <thead>
-                                <tr className="bg-[#8165FC] text-white">
-                                    <th className="p-4 text-left border">Permissions</th>
-                                    {operations.map(operation => (
-                                        <th key={operation.id} className="p-4 text-center border">
-                                            {operation.name}
-                                        </th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {pages.map(page => (
-                                    <tr key={page.id} className="hover:bg-gray-50">
-                                        <td className="p-4 border">
-                                            <div className="font-medium">{page.name}</div>
-                                        </td>
-                                        {operations.map(operation => (
-                                            <td key={operation.id} className="p-4 border text-center">
-                                                <button
-                                                    onClick={() =>
-                                                        togglePermission(
-                                                            page.id,
-                                                            `can_${operation.name.toLowerCase()}`
-                                                        )
-                                                    }
-                                                    className={`p-2 rounded-full transition-colors ${
-                                                        rolePermissions[page.id]?.[
-                                                            `can_${operation.name.toLowerCase()}`
-                                                        ]
-                                                            ? 'bg-green-100 hover:bg-green-200'
-                                                            : 'bg-red-100 hover:bg-red-200'
-                                                    }`}
-                                                >
-                                                    {rolePermissions[page.id]?.[`can_${operation.name.toLowerCase()}`] ? (
-                                                        <Check className="w-5 h-5 text-green-600" />
-                                                    ) : (
-                                                        <X className="w-5 h-5 text-red-600" />
-                                                    )}
-                                                </button>
-                                            </td>
+                    {loading ? (
+                        <Box sx={{ display: 'flex', justifyContent: 'center', py: 3 }}>
+                            <CircularProgress />
+                        </Box>
+                    ) : (
+                        <>
+                            <TableContainer component={Paper} sx={{ borderRadius: 2, boxShadow: 2 }}>
+                                <Table>
+                                    <TableHead>
+                                        <TableRow sx={{ bgcolor: 'primary.light' }}>
+                                            <TableCell sx={{ fontWeight: 'bold', color: 'white' }}>Permissions</TableCell>
+                                            {operations.map(operation => (
+                                                <TableCell key={operation.id} align="center" sx={{ fontWeight: 'bold', color: 'white' }}>
+                                                    {operation.name}
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {pages.slice((page - 1) * rowsPerPage, page * rowsPerPage).map((pageItem, index) => (
+                                            <TableRow key={pageItem.id} sx={{ bgcolor: index % 2 ? 'grey.50' : 'white' }}>
+                                                <TableCell sx={{ fontWeight: 'medium' }}>{pageItem.name}</TableCell>
+                                                {operations.map(operation => (
+                                                    <TableCell key={operation.id} align="center">
+                                                        <IconButton
+                                                            onClick={() => togglePermission(pageItem.id, `can_${operation.name.toLowerCase()}`)}
+                                                            sx={{
+                                                                color: rolePermissions[pageItem.id]?.[`can_${operation.name.toLowerCase()}`]
+                                                                    ? 'success.main'
+                                                                    : 'error.main',
+                                                            }}
+                                                        >
+                                                            {rolePermissions[pageItem.id]?.[`can_${operation.name.toLowerCase()}`] ? (
+                                                                <Check />
+                                                            ) : (
+                                                                <Clear />
+                                                            )}
+                                                        </IconButton>
+                                                    </TableCell>
+                                                ))}
+                                            </TableRow>
                                         ))}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div className="flex justify-end gap-4 mt-4">
-                        <button onClick={() => window.history.back()} className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded">
-                            Back
-                        </button>
-                        <button onClick={handleSaveChanges} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                            Save Changes
-                        </button>
-                    </div>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+
+                            <Box display="flex" justifyContent="center" mt={2}>
+                                <Pagination count={Math.ceil(pages.length / rowsPerPage)} page={page} onChange={(_, value) => setPage(value)} />
+                            </Box>
+
+                            <Box mt={3} display="flex" justifyContent="space-between">
+                                <Button variant="outlined" color="secondary" onClick={() => window.history.back()}>
+                                    Back
+                                </Button>
+                                <Button variant="contained" color="primary" onClick={handleSaveChanges} disabled={loading}>
+                                    Save Changes
+                                </Button>
+                            </Box>
+                        </>
+                    )}
                 </CardContent>
-            </div>
-        </div>
+            </Card>
+        </Box>
     );
 };
 
