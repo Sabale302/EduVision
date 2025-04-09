@@ -16,7 +16,6 @@ import Profile from "./pages/Profile";
 import FacultyInformation from "./pages/FacultyInformation";
 import PlacementData from "./pages/PlacementData";
 import PlacementForm from "./pages/PlacementForm";
-import MainComponent from "./pages/MainComponent";
 import UpdateProfile from "./pages/updateProfile";
 import Chat from "./pages/Chat";
 
@@ -87,7 +86,6 @@ function AppContent() {
             <Route path="/role-permissions/:groupName" element={<RolePermissions />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/updateprofile" element={<UpdateProfile />} />
-            <Route path="/db-connection" element={<MainComponent />} />
             <Route path="/chat" element={<Chat />} />
           </Routes>
         </div>
