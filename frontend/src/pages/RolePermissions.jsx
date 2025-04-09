@@ -59,7 +59,7 @@ const RolePermissionManager = () => {
         const fetchPermissions = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`http://localhost:7002/api/role-permissions/${groupName}`);
+                const response = await fetch(`https://kbpcsedept.in:7002/api/role-permissions/${groupName}`);
                 if (response.ok) {
                     const data = await response.json();
                     setRolePermissions(data.rolePermissions || {});
@@ -107,7 +107,7 @@ const RolePermissionManager = () => {
     const handleSaveChanges = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`http://localhost:7002/api/role-permissions/${groupName}`, {
+            const response = await fetch(`https://kbpcsedept.in:7002/api/role-permissions/${groupName}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ rolePermissions }),

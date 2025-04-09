@@ -1,13 +1,16 @@
 import express from "express";
-import sequelize from "./src/config/dbConnect.js";
+import sequelize from "./config/dbConnect.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from 'body-parser';
-import Faculty from './src/models/facultyModel.js';
-import authRoutes from "./src/routes/authRoutes.js";
-import updateprofileRoutes from './src/routes/updateprofileRoutes.js';
-import rolePermissionsRoutes from './src/routes/rolePermissionsRoutes.js';
-import User from './src/models/userModel.js'
+import Faculty from './models/facultyModel.js';
+import authRoutes from "./routes/authRoutes.js";
+import updateprofileRoutes from './routes/updateprofileRoutes.js';
+import rolePermissionsRoutes from './routes/rolePermissionsRoutes.js';
+import roleRoutes from './routes/roleRoutes.js';
+import manageUserRoutes from './routes/manageUserRoutes.js';
+import placementRoutes from './routes/placementRoutes.js';
+import User from './models/userModel.js'
 
 dotenv.config({ path: './.env' });
 
@@ -22,7 +25,9 @@ app.use(bodyParser.json());
 app.use("/api/auth", authRoutes);
 app.use('/api/profile', updateprofileRoutes);
 app.use('/api/role-permissions', rolePermissionsRoutes);
-
+app.use('/api/roles', roleRoutes);
+app.use('/api/manage-users', manageUserRoutes);
+app.use('/api/placements', placementRoutes);
 // Verify database connection
 sequelize.authenticate()
     .then(() => console.log("Database connected successfully."))
@@ -63,8 +68,7 @@ app.use((err, req, res, next) => {
 
 
 // Start the server
-const PORT = 7002;
-app.listen(PORT, () => {
+app.listen(7002, '0.0.0.0', () => {
     console.log(`Server is running at port ${PORT}`);
 });
 

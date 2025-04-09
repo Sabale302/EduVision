@@ -13,7 +13,7 @@ const DatabaseConnection = ({ onBack }) => {
         e.preventDefault(); // Prevent form from reloading the page
 
         try {
-            const response = await fetch('http://localhost:7002/connect', {
+            const response = await fetch('https://kbpcsedept.in:7002/connect', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ host, port, dbName, username, password }),

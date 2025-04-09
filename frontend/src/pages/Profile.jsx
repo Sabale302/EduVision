@@ -9,7 +9,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      fetch('http://localhost:7002/api/profile/', {
+      fetch('https://kbpcsedept.in:7002/api/profile/', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,

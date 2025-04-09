@@ -13,7 +13,7 @@ const Home = () => {
   useEffect(() => {
     const fetchTotalUsers = async () => {
       try {
-        const response = await fetch("http://localhost:7002/api/total-users");
+        const response = await fetch("https://kbpcsedept.in:7002/api/total-users");
         const data = await response.json();
         if (response.ok) {
           setTotalUsers(data.totalUsers);
