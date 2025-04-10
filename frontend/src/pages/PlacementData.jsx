@@ -30,7 +30,7 @@ const PlacementData = () => {
         formData.append("file", file);
 
         try {
-            const response = await axios.post("https://kbpcsedept.in:5000/upload", formData, {
+            const response = await axios.post("https://eduvision-r00l.onrender.com:5000/upload", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
@@ -76,7 +76,7 @@ const PlacementData = () => {
 
     const applyFilters = async () => {
         try {
-            const response = await axios.post("https://kbpcsedept.in:5000/filter", { filters });
+            const response = await axios.post("https://eduvision-r00l.onrender.com:5000/filter", { filters });
             console.log(response.data);
             if (response.data.filtered_preview) {
                 setPreviewData(response.data.filtered_preview);
@@ -94,7 +94,7 @@ const PlacementData = () => {
 
     // Fetch columns on component mount (assuming you fetch this from the server after uploading a file)
     useEffect(() => {
-        fetch('https://kbpcsedept.in:5000/upload')  // Replace with your file upload endpoint
+        fetch('https://eduvision-r00l.onrender.com:5000/upload')  // Replace with your file upload endpoint
             .then(response => response.json())
             .then(data => {
                 setColumns(data.columns || []);
@@ -114,7 +114,7 @@ const PlacementData = () => {
 
     const applyColumnChanges = () => {
         console.log('Selected Columns:', selectedColumns);
-        fetch('https://kbpcsedept.in:5000/apply-column-changes', {
+        fetch('https://eduvision-r00l.onrender.com:5000/apply-column-changes', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ const PlacementData = () => {
             .then(response => response.json())
             .then(data => {
                 console.log('Filtered Data:', data.filtered_data);
-                setFilteredData(data.filtered_data); // Set filtered data in state
+                setFilteredData(data.filtered_data); //https://eduvision-r00l.onrender.com state
                 setPreviewData(data.filtered_data);  // Update preview data with filtered data
             })
             .catch(error => {

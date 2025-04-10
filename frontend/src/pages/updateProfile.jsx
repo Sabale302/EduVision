@@ -15,7 +15,7 @@ const UpdateProfile = () => {
             const token = localStorage.getItem('token');
             console.log(token);
 
-            const response = await fetch('https://kbpcsedept.in:7002/api/profile/updateProfile', {
+            const response = await fetch('https://eduvision-r00l.onrender.com:7002/api/profile/updateProfile', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

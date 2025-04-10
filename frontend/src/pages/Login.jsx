@@ -17,7 +17,7 @@ const Login = () => {
         setError(''); // Clear previous errors
 
         try {
-            const response = await fetch('https://kbpcsedept.in:7002/api/auth/login', {
+            const response = await fetch('https://eduvision-r00l.onrender.com:7002/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),

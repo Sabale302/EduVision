@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
             console.log("Fetching permissions for role:", role);
             console.log("Using token:", token);
     
-            const response = await fetch(`https://kbpcsedept.in:7002/api/role-permissions/${role}`, {
+            const response = await fetch(`https://eduvision-r00l.onrender.com:7002/api/role-permissions/${role}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

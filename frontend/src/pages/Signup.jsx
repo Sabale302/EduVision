@@ -15,7 +15,7 @@ const Signup = () => {
         setLoading(true);
 
         try {
-            const response = await fetch('https://kbpcsedept.in:7002/api/auth/signup', {
+            const response = await fetch('https://eduvision-r00l.onrender.com:7002/api/auth/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, email, password, role }),

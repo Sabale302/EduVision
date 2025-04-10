@@ -36,7 +36,7 @@ const FacultyInformation = () => {
 
     const saveInformation = () => {
         console.log(facultyData);
-        fetch('https://kbpcsedept.in:7002/api/saveFacultyData', {
+        fetch('https://eduvision-r00l.onrender.com:7002/api/saveFacultyData', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(facultyData),

@@ -16,14 +16,14 @@ const FacultyReport = () => {
         "Conference National", "Conference International", "Citation Index", "Patents Details", "Signature"];
 
     useEffect(() => {
-        fetch('https://kbpcsedept.in:7002/api/faculty')
+        fetch('https://eduvision-r00l.onrender.com:7002/api/faculty')
             .then(response => response.json())
             .then(data => setFacultyData(data))
             .catch(error => console.error('Error fetching faculty data:', error));
     }, []);
 
     const generateReport = () => {
-        fetch('https://kbpcsedept.in:5000/generate-excel')
+        fetch('https://eduvision-r00l.onrender.com:5000/generate-excel')
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
                 return response.blob();
