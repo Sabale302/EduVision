@@ -11,6 +11,7 @@ import roleRoutes from './routes/roleRoutes.js';
 import manageUserRoutes from './routes/manageUserRoutes.js';
 import placementRoutes from './routes/placementRoutes.js';
 import User from './models/userModel.js'
+import fileUpload from 'express-fileupload';
 
 dotenv.config({ path: './.env' });
 
@@ -20,6 +21,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
+
+// File upload middleware
+app.use(fileUpload({
+    limits: { 
+        fileSize: 10 * 1024 * 1024 // 10MB max file size
+    },
+    abortOnLimit: true,
+    createParentPath: true
+}));
 
 // Routes
 app.use("/api/auth", authRoutes);
@@ -36,6 +46,12 @@ sequelize.authenticate()
 sequelize.sync()
     .then(() => console.log('Database synced'))
     .catch(error => console.error('Error syncing database:', error));
+
+
+    // Test route
+app.get('/', (req, res) => {
+    res.send('Placement API is running...');
+});
 
 // Endpoint to count total users
 app.get('/api/total-users', async (req, res) => {
@@ -68,7 +84,7 @@ app.use((err, req, res, next) => {
 
 
 // Start the server
-app.listen(7002, '0.0.0.0', () => {
-    console.log(`Server is running at port 7002`);
-});
-
+const PORT = 7002;
+app.listen(PORT, () => {
+    console.log(`Server is running at port ${PORT}`);
+}); 
