@@ -6,7 +6,7 @@ import { config } from 'dotenv';
 config();
 
 // Directly use path to ca.pem assuming it's in the 'certs' folder in your project root
-const caCertPath = path.resolve('./ca.pem');
+const caCertPath = path.resolve('ca.pem');
 
 const sequelize = new Sequelize(
   process.env.MYSQL_DB,
