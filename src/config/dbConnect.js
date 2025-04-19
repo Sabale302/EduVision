@@ -3,10 +3,15 @@ import path from 'path';
 import { Sequelize } from 'sequelize';
 import process from 'process';
 import { config } from 'dotenv';
+
 config();
 
-// Directly use path to ca.pem assuming it's in the 'certs' folder in your project root
+// Resolve the path to ca.pem at project root
 const caCertPath = path.resolve('ca.pem');
+
+// Debugging logs (remove once working)
+console.log("✅ CA Cert path:", caCertPath);
+console.log("✅ CA file exists:", fs.existsSync(caCertPath));
 
 const sequelize = new Sequelize(
   process.env.MYSQL_DB,
@@ -14,7 +19,7 @@ const sequelize = new Sequelize(
   process.env.MYSQL_PASSWORD,
   {
     host: process.env.MYSQL_HOST,
-    port: process.env.MYSQL_PORT, // Don't forget this if you're using a custom port like 25891
+    port: process.env.MYSQL_PORT, // Ensure this is set in Render's environment
     dialect: 'mysql',
     dialectOptions: {
       ssl: {
@@ -22,8 +27,10 @@ const sequelize = new Sequelize(
       }
     },
     pool: {
+      max: 5,
+      min: 0,
       acquire: 30000,
-      idle: 10000,
+      idle: 10000
     }
   }
 );
