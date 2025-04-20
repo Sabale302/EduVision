@@ -16,6 +16,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.MuiBox-root:empty {
+  display: none;
+}
+
+.MuiBox-root.css-i9gxme:empty {
+  display: none;
+}
+
 html, body, #root {
   height: 100%;
   margin: 0;
