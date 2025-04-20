@@ -53,7 +53,7 @@ function AppContent() {
   }, [path]);
 
   return (
-    <div className="flex min-h-screen">
+    <div>
       <CssBaseline />
       {!hideSidebar && <Sidebar />}
       <div className="flex flex-col flex-grow bg-gray-100">
