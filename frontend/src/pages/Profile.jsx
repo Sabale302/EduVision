@@ -9,7 +9,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      fetch('https://eduvision-r00l.onrender.com:7002/api/profile/', {
+      fetch('https://eduvision-r00l.onrender.com/api/profile/', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,

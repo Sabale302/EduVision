@@ -27,7 +27,7 @@ const ManageGroups = () => {
 
     const fetchGroups = async () => {
         try {
-            const response = await fetch('https://eduvision-r00l.onrender.com:7002/api/roles');
+            const response = await fetch('https://eduvision-r00l.onrender.com/api/roles');
             const data = await response.json();
             const sortedData = data.sort((a, b) => a.id - b.id);
             setGroups(sortedData);
@@ -48,7 +48,7 @@ const ManageGroups = () => {
         }
 
         try {
-            const response = await fetch('https://eduvision-r00l.onrender.com:7002/api/roles', {
+            const response = await fetch('https://eduvision-r00l.onrender.com/api/roles', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ role_name: newGroup.trim() }),
@@ -71,7 +71,7 @@ const ManageGroups = () => {
     const handleDeleteGroup = async (groupId) => {
         try {
             console.log('Deleting group with ID:', groupId);
-            const response = await fetch(`https://eduvision-r00l.onrender.com:7002/api/roles/${groupId}`, {
+            const response = await fetch(`https://eduvision-r00l.onrender.com/api/roles/${groupId}`, {
                 method: 'DELETE',
             });
 

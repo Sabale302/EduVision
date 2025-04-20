@@ -30,7 +30,7 @@ const ManageUsers = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await fetch('https://eduvision-r00l.onrender.com:7002/api/manage-users');
+                const response = await fetch('https://eduvision-r00l.onrender.com/api/manage-users');
                 const data = await response.json();
                 setUsers(data);
             } catch (error) {
@@ -49,7 +49,7 @@ const ManageUsers = () => {
 
     const handleDelete = async (id) => {
         try {
-            const response = await fetch(`https://eduvision-r00l.onrender.com:7002/api/manage-users/${id}`, {
+            const response = await fetch(`https://eduvision-r00l.onrender.com/api/manage-users/${id}`, {
                 method: 'DELETE',
             });
             if (response.ok) {

@@ -16,7 +16,7 @@ const FacultyReport = () => {
         "Conference National", "Conference International", "Citation Index", "Patents Details", "Signature"];
 
     useEffect(() => {
-        fetch('https://eduvision-r00l.onrender.com:7002/api/faculty')
+        fetch('https://eduvision-r00l.onrender.com/api/faculty')
             .then(response => response.json())
             .then(data => setFacultyData(data))
             .catch(error => console.error('Error fetching faculty data:', error));

@@ -13,7 +13,7 @@ const Home = () => {
   useEffect(() => {
     const fetchTotalUsers = async () => {
       try {
-        const response = await fetch("https://eduvision-r00l.onrender.com:7002/api/total-users");
+        const response = await fetch("https://eduvision-r00l.onrender.com/api/total-users");
         const data = await response.json();
         if (response.ok) {
           setTotalUsers(data.totalUsers);
