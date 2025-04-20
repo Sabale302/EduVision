@@ -28,7 +28,7 @@ const Home = () => {
     };
 
     fetchTotalUsers();
-  }, []);
+  }, [setError]);
 
   const stats = [
     { title: "Total Users", value: totalUsers, icon: <Users />, color: "#2196F3" },

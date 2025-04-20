@@ -17,18 +17,35 @@ dotenv.config({ path: './.env' });
 
 const app = express();
 
+// 📌 CORS Config
+const allowedOrigins = ['https://www.kbpcsedept.in'];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);  // Allow server-to-server / Postman requests
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('CORS policy blocked this origin: ' + origin));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Handle preflight OPTIONS requests globally
+app.options('*', cors());
+
 // Middleware
-app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
 // File upload middleware
 app.use(fileUpload({
-    limits: { 
-        fileSize: 10 * 1024 * 1024 // 10MB max file size
-    },
-    abortOnLimit: true,
-    createParentPath: true
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB max file size
+  abortOnLimit: true,
+  createParentPath: true
 }));
 
 // Routes
@@ -38,53 +55,52 @@ app.use('/api/role-permissions', rolePermissionsRoutes);
 app.use('/api/roles', roleRoutes);
 app.use('/api/manage-users', manageUserRoutes);
 app.use('/api/placements', placementRoutes);
-// Verify database connection
+
+// Test DB connection
 sequelize.authenticate()
-    .then(() => console.log("Database connected successfully."))
-    .catch((error) => console.error("Database connection failed:", error));
+  .then(() => console.log("✅ Database connected successfully."))
+  .catch((error) => console.error("❌ Database connection failed:", error));
 
 sequelize.sync()
-    .then(() => console.log('Database synced'))
-    .catch(error => console.error('Error syncing database:', error));
+  .then(() => console.log('✅ Database synced'))
+  .catch(error => console.error('❌ Error syncing database:', error));
 
-
-    // Test route
+// Test route
 app.get('/', (req, res) => {
-    res.send('Placement API is running...');
+  res.send('Placement API is running...');
 });
 
-// Endpoint to count total users
+// Count total users endpoint
 app.get('/api/total-users', async (req, res) => {
-    try {
-        const totalUsers = await User.count()
-        res.status(200).json({ totalUsers });
-    } catch (error) {
-        console.error('Error fetching total users:', error);
-        res.status(500).json({ error: 'Server error' });
-    }
+  try {
+    const totalUsers = await User.count();
+    res.status(200).json({ totalUsers });
+  } catch (error) {
+    console.error('Error fetching total users:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
 });
 
-// Endpoint to receive faculty data
+// Receive faculty data endpoint
 app.post('/api/saveFacultyData', async (req, res, next) => {
-    try {
-        const facultyData = req.body;
-        const newFaculty = await Faculty.create(facultyData);
-        res.status(200).json({ message: 'Faculty data saved successfully', data: newFaculty });
-    } catch (error) {
-        console.error('Error saving faculty data:', error);
-        next(error); 
-    }
+  try {
+    const facultyData = req.body;
+    const newFaculty = await Faculty.create(facultyData);
+    res.status(200).json({ message: 'Faculty data saved successfully', data: newFaculty });
+  } catch (error) {
+    console.error('Error saving faculty data:', error);
+    next(error);
+  }
 });
 
 // Global error handling middleware
 app.use((err, req, res, next) => {
-    console.error("Error:", err.message || err);
-    res.status(500).json({ error: err.message || "Server error" });
+  console.error("Error:", err.message || err);
+  res.status(500).json({ error: err.message || "Server error" });
 });
 
-
-// Start the server
-const PORT = 7002;
+// Start server
+const PORT = process.env.PORT || 7002;
 app.listen(PORT, () => {
-    console.log(`Server is running at port ${PORT}`);
-}); 
+  console.log(`🚀 Server is running at port ${PORT}`);
+});
