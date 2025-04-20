@@ -47,9 +47,12 @@ const sequelize = new Sequelize(
       }
     },
     pool: {
-      acquire: 30000,
-      idle: 10000,
-    }
+      max: 5,
+      min: 0,
+      acquire: 10000,
+      idle: 10000
+    },
+    connectTimeout: 60000,
   }
 );
 
