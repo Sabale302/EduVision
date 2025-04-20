@@ -2,7 +2,7 @@ import { AppBar, Toolbar, Typography, Box } from '@mui/material';
 import { useState } from 'react';
 import { AccountCircle } from '@mui/icons-material';
 import { IconButton, Menu, MenuItem } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';
 
 const App = () => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -77,13 +77,14 @@ const App = () => {
                 </AppBar>
 
                 <Box
-                    component="main"
-                    sx={{
-                        flexGrow: 1,
-                        p: 3,
-                        ml: '200px',
-                    }}
+                component="main"
+                sx={{
+                    flexGrow: 1,
+                    p: 3,
+                    ml: '200px',
+                }}
                 >
+                <Outlet />
                 </Box>
             </Box>
         </div>
