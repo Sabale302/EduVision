@@ -169,6 +169,7 @@ const Home = () => {
                   elevation={3}
                   sx={{
                     p: 3,
+                    width: 500,
                     textAlign: "center",
                     borderRadius: 2,
                     transition: "0.3s",
