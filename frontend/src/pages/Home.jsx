@@ -115,14 +115,14 @@ const Home = () => {
           title={<Typography variant="h5">Institution Overview</Typography>}
         />
         <CardContent>
-          <Grid container spacing={3}>
+          <Grid container spacing={2}>
             {stats.map((stat) => (
               <Grid item xs={12} sm={6} md={3} key={stat.title}>
                 <Card
                   sx={{
                     p: 2,
                     borderRadius: 2,
-                    width: 219,
+                    width: 220,
                     textAlign: "center",
                     backgroundColor: stat.cardBg,
                     transition: "0.3s",
