@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Users, Award, BookOpen, FileText, Dashboard, Settings} from "lucide-react";
+import { Users, Award, BookOpen, FileText } from "lucide-react";
+import { Dashboard, Settings } from "@mui/icons-material";
 import { Box, Grid, Typography, Card, CardContent, CardHeader, Avatar, Paper, CircularProgress, Alert} from "@mui/material";
 import { dashboardCards } from "../components/DashboardCard";
 
