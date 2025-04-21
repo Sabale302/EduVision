@@ -1,7 +1,18 @@
 import { useState, useEffect } from "react";
 import { Users, Award, BookOpen, FileText } from "lucide-react";
 import { Dashboard, Settings } from "@mui/icons-material";
-import { Box, Grid, Typography, Card, CardContent, CardHeader, Avatar, Paper, CircularProgress, Alert} from "@mui/material";
+import {
+  Box,
+  Grid,
+  Typography,
+  Card,
+  CardContent,
+  CardHeader,
+  Avatar,
+  Paper,
+  CircularProgress,
+  Alert,
+} from "@mui/material";
 import { dashboardCards } from "../components/DashboardCard";
 
 const Home = () => {
@@ -34,27 +45,31 @@ const Home = () => {
   const stats = [
     {
       title: "Total Users",
-      value:
-        totalUsers === null ? (
-          <CircularProgress size={24} />
-        ) : (
-          totalUsers
-        ),
+      value: totalUsers === null ? <CircularProgress size={24} /> : totalUsers,
       icon: <Users />,
-      color: "#2196F3",
+      color: "#1976D2", // Blue
+      cardBg: "#E3F2FD",
     },
-    { title: "Active Students", value: "8", icon: <Award />, color: "#9C27B0" },
+    {
+      title: "Active Students",
+      value: "8",
+      icon: <Award />,
+      color: "#8E24AA", // Purple
+      cardBg: "#F3E5F5",
+    },
     {
       title: "Total Dashboards",
       value: cardsCount,
       icon: <BookOpen />,
-      color: "#4CAF50",
+      color: "#2E7D32", // Green
+      cardBg: "#E8F5E9",
     },
     {
       title: "Total Reports",
       value: "156",
       icon: <FileText />,
-      color: "#FF9800",
+      color: "#F57C00", // Orange
+      cardBg: "#FFF3E0",
     },
   ];
 
@@ -108,6 +123,7 @@ const Home = () => {
                     p: 2,
                     borderRadius: 2,
                     textAlign: "center",
+                    backgroundColor: stat.cardBg,
                     transition: "0.3s",
                     "&:hover": { boxShadow: 6, transform: "scale(1.05)" },
                   }}
