@@ -74,8 +74,10 @@ const FacultyReport = () => {
   }));
 
   return (
-    <div className="p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Faculty Report Generation System</h2>
+    <Box sx={{ p: 4, maxWidth: 1100, mx: "auto", my: 4 }}>
+      <Typography variant="h4" fontWeight="bold" color="text.primary" mb={4}>
+        Faculty Report Generation System
+      </Typography>
 
       <div className="flex flex-wrap gap-4 mb-4">
         <div className="relative flex-1 min-w-[250px]">
@@ -211,7 +213,7 @@ const FacultyReport = () => {
           )}
         </div>
       )}
-    </div>
+    </Box>
   );
 };
 
