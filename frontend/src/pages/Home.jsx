@@ -1,7 +1,16 @@
 import { useState, useEffect } from "react";
 import { Users, Award, BookOpen, FileText } from "lucide-react";
 import { Dashboard, Settings } from "@mui/icons-material";
-import { Box, Grid, Typography, Card, CardContent, Avatar, Paper,} from "@mui/material";
+import {
+  Box,
+  Grid,
+  Typography,
+  Card,
+  CardContent,
+  CardHeader,
+  Avatar,
+  Paper,
+} from "@mui/material";
 import { dashboardCards } from "../components/DashboardCard";
 
 const Home = () => {
@@ -9,7 +18,6 @@ const Home = () => {
   const [setError] = useState(null);
   const cardsCount = dashboardCards.length;
 
-  // Fetch total users from the backend
   useEffect(() => {
     const fetchTotalUsers = async () => {
       try {
@@ -45,74 +53,98 @@ const Home = () => {
   ];
 
   return (
-    <Box sx={{ p: 4, maxWidth: "100%", mx: "auto", bgcolor: "#F5F5F5", borderRadius: 2 }}>
-      {/* Welcome Section */}
-      <Box mb={4}>
-        <Typography variant="h4" fontWeight="bold" color="text.primary">
-          Welcome to College Analytics Suite
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Your comprehensive solution for educational data analysis and insights.
-        </Typography>
-      </Box>
+    <Box sx={{ p: 4, maxWidth: 1100, mx: "auto", my: 4 }}>
+      <Typography variant="h4" fontWeight="bold" color="text.primary" mb={4}>
+        Welcome to College Analytics Suite
+      </Typography>
 
-      {/* Stats Grid */}
-      <Grid container spacing={3} mb={4}>
-        {stats.map((stat) => (
-          <Grid item xs={12} sm={6} md={3} key={stat.title}>
-            <Card sx={{ p: 2, borderRadius: 2, textAlign: "center", transition: "0.3s", "&:hover": { boxShadow: 6, transform: "scale(1.05)" } }}>
-              <CardContent>
-                <Avatar sx={{ bgcolor: stat.color, width: 48, height: 48, mx: "auto", mb: 2 }}>
-                  {stat.icon}
-                </Avatar>
-                <Typography variant="h6" color="text.secondary">
-                  {stat.title}
-                </Typography>
-                <Typography variant="h4" fontWeight="bold">
-                  {stat.value}
-                </Typography>
-              </CardContent>
-            </Card>
+      {/* Stats Card */}
+      <Card sx={{ p: 3, mb: 4 }}>
+        <CardHeader
+          title={<Typography variant="h5">Institution Overview</Typography>}
+        />
+        <CardContent>
+          <Grid container spacing={3}>
+            {stats.map((stat) => (
+              <Grid item xs={12} sm={6} md={3} key={stat.title}>
+                <Card
+                  sx={{
+                    p: 2,
+                    borderRadius: 2,
+                    textAlign: "center",
+                    transition: "0.3s",
+                    "&:hover": { boxShadow: 6, transform: "scale(1.05)" },
+                  }}
+                >
+                  <CardContent>
+                    <Avatar
+                      sx={{
+                        bgcolor: stat.color,
+                        width: 48,
+                        height: 48,
+                        mx: "auto",
+                        mb: 2,
+                      }}
+                    >
+                      {stat.icon}
+                    </Avatar>
+                    <Typography variant="h6" color="text.secondary">
+                      {stat.title}
+                    </Typography>
+                    <Typography variant="h4" fontWeight="bold">
+                      {stat.value}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
+        </CardContent>
+      </Card>
 
-      {/* Key Features */}
-      <Box mb={4}>
-        <Typography variant="h5" fontWeight="bold" color="text.primary">
-          Key Features
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Here are some of the key features of our analytics suite:
-        </Typography>
-      </Box>
-
-      <Grid container spacing={3}>
-        {keyFeatures.map((feature) => (
-          <Grid item xs={12} sm={6} md={3} key={feature.title}>
-            <Paper
-              elevation={3}
-              sx={{
-                p: 3,
-                textAlign: "center",
-                borderRadius: 2,
-                transition: "0.3s",
-                "&:hover": { boxShadow: 6, transform: "scale(1.05)" },
-              }}
-            >
-              <Avatar sx={{ bgcolor: "#1976D2", width: 48, height: 48, mx: "auto", mb: 2 }}>
-                {feature.icon}
-              </Avatar>
-              <Typography variant="h6" fontWeight="bold">
-                {feature.title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {feature.description}
-              </Typography>
-            </Paper>
+      {/* Key Features Card */}
+      <Card sx={{ p: 3, mb: 4 }}>
+        <CardHeader
+          title={<Typography variant="h5">Key Features</Typography>}
+          subheader="Explore what makes our platform powerful"
+        />
+        <CardContent>
+          <Grid container spacing={3}>
+            {keyFeatures.map((feature) => (
+              <Grid item xs={12} sm={6} md={3} key={feature.title}>
+                <Paper
+                  elevation={3}
+                  sx={{
+                    p: 3,
+                    textAlign: "center",
+                    borderRadius: 2,
+                    transition: "0.3s",
+                    "&:hover": { boxShadow: 6, transform: "scale(1.05)" },
+                  }}
+                >
+                  <Avatar
+                    sx={{
+                      bgcolor: "#1976D2",
+                      width: 48,
+                      height: 48,
+                      mx: "auto",
+                      mb: 2,
+                    }}
+                  >
+                    {feature.icon}
+                  </Avatar>
+                  <Typography variant="h6" fontWeight="bold">
+                    {feature.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {feature.description}
+                  </Typography>
+                </Paper>
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
+        </CardContent>
+      </Card>
     </Box>
   );
 };
