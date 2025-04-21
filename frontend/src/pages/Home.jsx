@@ -115,46 +115,42 @@ const Home = () => {
           title={<Typography variant="h5">Institution Overview</Typography>}
         />
         <CardContent>
-        <Grid container spacing={3}>
-          {stats.map((stat) => (
-            <Grid item xs={12} sm={6} md={3} key={stat.title}>
-              <Card
-                sx={{
-                  p: 2,
-                  borderRadius: 2,
-                  textAlign: "center",
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  transition: "0.3s",
-                  "&:hover": { boxShadow: 6, transform: "scale(1.05)" },
-                  backgroundColor: stat.bgColor || "#fff",
-                }}
-              >
-                <CardContent sx={{ flex: 1 }}>
-                  <Avatar
-                    sx={{
-                      bgcolor: stat.color,
-                      width: 48,
-                      height: 48,
-                      mx: "auto",
-                      mb: 2,
-                    }}
-                  >
-                    {stat.icon}
-                  </Avatar>
-                  <Typography variant="h6" color="text.secondary">
-                    {stat.title}
-                  </Typography>
-                  <Typography variant="h4" fontWeight="bold">
-                    {stat.value}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+          <Grid container spacing={3}>
+            {stats.map((stat) => (
+              <Grid item xs={12} sm={6} md={3} key={stat.title}>
+                <Card
+                  sx={{
+                    p: 2,
+                    borderRadius: 2,
+                    textAlign: "center",
+                    backgroundColor: stat.cardBg,
+                    transition: "0.3s",
+                    "&:hover": { boxShadow: 6, transform: "scale(1.05)" },
+                  }}
+                >
+                  <CardContent>
+                    <Avatar
+                      sx={{
+                        bgcolor: stat.color,
+                        width: 48,
+                        height: 48,
+                        mx: "auto",
+                        mb: 2,
+                      }}
+                    >
+                      {stat.icon}
+                    </Avatar>
+                    <Typography variant="h6" color="text.secondary">
+                      {stat.title}
+                    </Typography>
+                    <Typography variant="h4" fontWeight="bold">
+                      {stat.value}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
         </CardContent>
       </Card>
 
