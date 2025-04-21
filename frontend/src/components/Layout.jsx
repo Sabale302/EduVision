@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
-import { CssBaseline, Toolbar } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import Sidebar from "./Sidebar";
 import AppBar from "./AppBar";
 import { useEffect } from "react";
@@ -7,11 +7,13 @@ import { useEffect } from "react";
 const Layout = () => {
   const location = useLocation();
   const path = location.pathname.toLowerCase();
-  const hideSidebar = path === "/login" || path === "/signup";
+
+  // Hide Sidebar and AppBar on login/signup
+  const hideLayout = path === "/login" || path === "/signup";
 
   // Chatbot script management
   useEffect(() => {
-    if (!hideSidebar) {
+    if (!hideLayout) {
       const script = document.createElement("script");
       script.src = "https://www.chatbase.co/embed.min.js";
       script.setAttribute("chatbotId", "RA1DCg3ReDnD-ED0rjpU-");
@@ -22,26 +24,23 @@ const Layout = () => {
         document.body.removeChild(script);
       };
     }
-  }, [hideSidebar]);
+  }, [hideLayout]);
 
   return (
-    <div>
+    <div className="flex h-screen">
       <CssBaseline />
-      {!hideSidebar && <Sidebar />}
+      {!hideLayout && <Sidebar />}
       <div className="flex flex-col flex-grow bg-gray-100">
-        {!hideSidebar && (
-          <>
-            <AppBar />
-            <Toolbar />
-          </>
-        )}
+        {!hideLayout && <AppBar />}
 
         <div
           style={{
-            marginLeft: hideSidebar ? "0px" : "250px",
-            width: hideSidebar ? "100%" : "calc(100% - 250px)"
+            marginLeft: hideLayout ? "0px" : "250px",
+            width: hideLayout ? "100%" : "calc(100% - 250px)",
+            overflowY: "auto",
+            flexGrow: 1,
           }}
-          className={hideSidebar ? "flex justify-center items-center h-screen w-full bg-gray-100" : "p-4"}
+          className={hideLayout ? "flex justify-center items-center h-screen bg-gray-100" : "p-4"}
         >
           <Outlet />
         </div>
