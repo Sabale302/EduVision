@@ -122,7 +122,7 @@ const Home = () => {
                   sx={{
                     p: 2,
                     borderRadius: 2,
-                    width: 215,
+                    width: 225,
                     textAlign: "center",
                     backgroundColor: stat.cardBg,
                     transition: "0.3s",
