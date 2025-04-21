@@ -16,7 +16,6 @@ import PlacementData from "./pages/PlacementData";
 import PlacementForm from "./pages/PlacementForm";
 import UpdateProfile from "./pages/updateProfile";
 import Chat from "./pages/Chat";
-import MainComponent from "./pages/MainComponent";
 
 function App() {
   return (
@@ -41,7 +40,6 @@ function App() {
             <Route path="/role-permissions/:groupName" element={<RolePermissions />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/updateprofile" element={<UpdateProfile />} />
-            <Route path="/db-connection" element={<MainComponent />} />
             <Route path="/chat" element={<Chat />} />
           </Route>
         </Routes>
