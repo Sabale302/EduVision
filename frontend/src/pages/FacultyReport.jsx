@@ -1,6 +1,18 @@
 import { Printer, Search } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import { CSVLink } from 'react-csv';
+import {
+    Box,
+    Grid,
+    Typography,
+    Card,
+    CardContent,
+    CardHeader,
+    Avatar,
+    Paper,
+    CircularProgress,
+    Alert,
+  } from "@mui/material";
 
 const FacultyReport = () => {
   const [facultyData, setFacultyData] = useState([]);
