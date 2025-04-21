@@ -1,27 +1,19 @@
 import { useState, useEffect } from "react";
-import { Users, Award, BookOpen, FileText } from "lucide-react";
-import { Dashboard, Settings } from "@mui/icons-material";
-import {
-  Box,
-  Grid,
-  Typography,
-  Card,
-  CardContent,
-  CardHeader,
-  Avatar,
-  Paper,
-} from "@mui/material";
+import { Users, Award, BookOpen, FileText, Dashboard, Settings} from "lucide-react";
+import { Box, Grid, Typography, Card, CardContent, CardHeader, Avatar, Paper, CircularProgress, Alert} from "@mui/material";
 import { dashboardCards } from "../components/DashboardCard";
 
 const Home = () => {
-  const [totalUsers, setTotalUsers] = useState("Loading...");
-  const [setError] = useState(null);
+  const [totalUsers, setTotalUsers] = useState(null);
+  const [error, setError] = useState(null);
   const cardsCount = dashboardCards.length;
 
   useEffect(() => {
     const fetchTotalUsers = async () => {
       try {
-        const response = await fetch("https://eduvision-r00l.onrender.com/api/total-users");
+        const response = await fetch(
+          "https://eduvision-r00l.onrender.com/api/total-users"
+        );
         const data = await response.json();
         if (response.ok) {
           setTotalUsers(data.totalUsers);
@@ -36,20 +28,56 @@ const Home = () => {
     };
 
     fetchTotalUsers();
-  }, [setError]);
+  }, []);
 
   const stats = [
-    { title: "Total Users", value: totalUsers, icon: <Users />, color: "#2196F3" },
+    {
+      title: "Total Users",
+      value:
+        totalUsers === null ? (
+          <CircularProgress size={24} />
+        ) : (
+          totalUsers
+        ),
+      icon: <Users />,
+      color: "#2196F3",
+    },
     { title: "Active Students", value: "8", icon: <Award />, color: "#9C27B0" },
-    { title: "Total Dashboards", value: cardsCount, icon: <BookOpen />, color: "#4CAF50" },
-    { title: "Total Reports", value: "156", icon: <FileText />, color: "#FF9800" },
+    {
+      title: "Total Dashboards",
+      value: cardsCount,
+      icon: <BookOpen />,
+      color: "#4CAF50",
+    },
+    {
+      title: "Total Reports",
+      value: "156",
+      icon: <FileText />,
+      color: "#FF9800",
+    },
   ];
 
   const keyFeatures = [
-    { title: "Predict Future Trends", icon: <Dashboard />, description: "Forecast grades, research output, and budgets with AI." },
-    { title: "Anomaly Detection", icon: <FileText />, description: "Identify unusual patterns like overspending or low attendance." },
-    { title: "Resource Planning", icon: <Settings />, description: "Optimize resource allocation using historical data." },
-    { title: "Early Warnings", icon: <BookOpen />, description: "Alert on issues like dropouts or low research output." },
+    {
+      title: "Predict Future Trends",
+      icon: <Dashboard />,
+      description: "Forecast grades, research output, and budgets with AI.",
+    },
+    {
+      title: "Anomaly Detection",
+      icon: <FileText />,
+      description: "Identify unusual patterns like overspending or low attendance.",
+    },
+    {
+      title: "Resource Planning",
+      icon: <Settings />,
+      description: "Optimize resource allocation using historical data.",
+    },
+    {
+      title: "Early Warnings",
+      icon: <BookOpen />,
+      description: "Alert on issues like dropouts or low research output.",
+    },
   ];
 
   return (
@@ -57,6 +85,13 @@ const Home = () => {
       <Typography variant="h4" fontWeight="bold" color="text.primary" mb={4}>
         Welcome to College Analytics Suite
       </Typography>
+
+      {/* Error Alert */}
+      {error && (
+        <Alert severity="error" sx={{ mb: 3 }}>
+          {error}
+        </Alert>
+      )}
 
       {/* Stats Card */}
       <Card sx={{ p: 3, mb: 4 }}>
