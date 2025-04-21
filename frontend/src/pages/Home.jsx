@@ -110,7 +110,7 @@ const Home = () => {
       )}
 
       {/* Stats Card */}
-      <Card sx={{ p: 3, mb: 4 }}>
+      <Card sx={{ p: 2, mb: 4 }}>
         <CardHeader
           title={<Typography variant="h5">Institution Overview</Typography>}
         />
