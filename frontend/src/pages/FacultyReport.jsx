@@ -97,16 +97,16 @@ const FacultyReport = () => {
           <input
             type="text"
             placeholder="Search faculty..."
-            className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md bg-white text-black shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md text-black bg-white shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         <select
-          className="px-4 py-2 border border-gray-300 rounded-md bg-white text-black shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={filterDepartment}
           onChange={(e) => setFilterDepartment(e.target.value)}
+          className="px-4 py-2 border border-gray-300 rounded-md text-black bg-white shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="all">All Departments</option>
           {departmentOptions.map((dept, idx) => (
