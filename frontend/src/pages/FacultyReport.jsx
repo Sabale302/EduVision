@@ -70,7 +70,7 @@ const FacultyReport = () => {
   const csvData = filteredFacultyData.map((faculty, index) => ({ "Sr. No": index + 1, ...faculty }));
 
   return (
-    <Box sx={{ p: 4, maxWidth: 1200, mx: "auto" }}>
+    <Box sx={{ p: 4, maxWidth: 1200, mx: "auto", my: 4 }}>
       <Typography variant="h4" fontWeight="bold" mb={4}>
         Faculty Report Generation System
       </Typography>
