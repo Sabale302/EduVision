@@ -1,18 +1,7 @@
 import { Printer, Search } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import { CSVLink } from 'react-csv';
-import {
-    Box,
-    Grid,
-    Typography,
-    Card,
-    CardContent,
-    CardHeader,
-    Avatar,
-    Paper,
-    CircularProgress,
-    Alert, TextField, InputAdornment, MenuItem,
-  } from "@mui/material";
+import { Box, Typography, TextField, InputAdornment, MenuItem} from "@mui/material";
 
 const FacultyReport = () => {
   const [facultyData, setFacultyData] = useState([]);
@@ -98,7 +87,7 @@ const FacultyReport = () => {
           placeholder="Search faculty..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          sx={{ minWidth: 300 }}
+          sx={{ minWidth: 700 }}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -114,7 +103,7 @@ const FacultyReport = () => {
           variant="outlined"
           value={filterDepartment}
           onChange={(e) => setFilterDepartment(e.target.value)}
-          sx={{ minWidth: 220 }}
+          sx={{ minWidth: 220, marginLeft:100 }}
           label="Department"
         >
           <MenuItem value="all">All Departments</MenuItem>
@@ -126,7 +115,7 @@ const FacultyReport = () => {
         </TextField>
       </div>
 
-      <div className="flex gap-4 mb-4">
+      <div className="flex gap-4 mb-4 mt-6">
         <CSVLink
           headers={csvHeaders}
           data={csvData}
@@ -206,7 +195,6 @@ const FacultyReport = () => {
                         <td className="p-2 border">{faculty.citationIndex}</td>
                         <td className="p-2 border">{faculty.patentsDetails}</td>
                         <td className="p-2 border">{faculty.signature}</td>
-                      {/* you can map the rest like this */}
                     </tr>
                   ))}
                 </tbody>
