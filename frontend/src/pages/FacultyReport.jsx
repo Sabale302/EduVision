@@ -103,7 +103,7 @@ const FacultyReport = () => {
           variant="outlined"
           value={filterDepartment}
           onChange={(e) => setFilterDepartment(e.target.value)}
-          sx={{ minWidth: 220, marginLeft:100 }}
+          sx={{ minWidth: 220, marginLeft:50 }}
           label="Department"
         >
           <MenuItem value="all">All Departments</MenuItem>
@@ -127,7 +127,7 @@ const FacultyReport = () => {
 
         <button
           onClick={printReport}
-          className="p-2 px-4 text-gray-600 hover:text-gray-800 flex items-center"
+          className="p-2 px-4 ml:6 text-gray-600 hover:text-gray-800 flex items-center"
         >
           <Printer className="w-5 h-5 mr-2" /> Print
         </button>
