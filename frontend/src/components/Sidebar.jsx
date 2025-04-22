@@ -29,7 +29,6 @@ const theme = createTheme({
 const navigationItems = [
     { path: '/home', text: 'Home', icon: <HomeIcon />, pageId: 1 },
     { path: '/dashboard', text: 'Dashboard', icon: <Dashboard />, pageId: 2 },
-    { path: '/chat', text: 'Chat', icon: <Chat />, pageId: 6},
     { path: '/report', text: 'Report', icon: <BarChart />, pageId: 3 },
     { path: '/placement-data', text: 'Placement Data', icon: <BarChart />, pageId: 4 },
     { path: '/placement-form', text: 'Placement Form', icon: <BarChart />, pageId: 10 },
@@ -39,7 +38,6 @@ const navigationItems = [
 const masterSubItems = [
     { path: '/manage-groups', text: 'Manage Groups', icon: <Group />, pageId: 7 },
     { path: '/manage-users', text: 'Manage Users', icon: <GroupAdd />, pageId: 8 },
-    { path: '/db-connection', text: 'DB Connection', icon: <Group />, pageId: 9 }
 ];
 
 const Sidebar = () => {
