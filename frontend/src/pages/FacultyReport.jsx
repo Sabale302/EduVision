@@ -91,20 +91,20 @@ const FacultyReport = () => {
         Faculty Report Generation System
       </Typography>
 
-      <div className="flex flex-wrap gap-4 mb-4">
+      <div className="flex flex-wrap items-center gap-4 mb-6">
         <div className="relative flex-1 min-w-[250px]">
           <Search className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
           <input
             type="text"
             placeholder="Search faculty..."
-            className="pl-10 py-2 w-full border rounded-md shadow-sm text-black"
+            className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md shadow-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
 
         <select
-          className="px-4 py-2 border rounded bg-white text-black border-gray-400"
+          className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-black bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={filterDepartment}
           onChange={(e) => setFilterDepartment(e.target.value)}
         >
