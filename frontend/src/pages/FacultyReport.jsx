@@ -1,7 +1,7 @@
 import { Printer, Search } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import { CSVLink } from 'react-csv';
-import { Box, Typography, TextField, InputAdornment, MenuItem} from "@mui/material";
+import { Box, Typography, TextField, InputAdornment, MenuItem, Button, Grid} from "@mui/material";
 
 const FacultyReport = () => {
   const [facultyData, setFacultyData] = useState([]);
@@ -14,17 +14,16 @@ const FacultyReport = () => {
   const rowsPerPage = 10;
 
   const columnNames = [
-    "Sr. No", "Faculty Name", "Department", "Designation", "Qualification",
-    "Gender", "Category", "Caste", "Birth Date", "Pan No", "Aadhar No", "Mobile No",
-    "Email ID", "Biometric No", "Correspondence Address", "Permanent Address",
-    "Date of Appointment", "Date of Joining", "First Post", "Date of Retirement",
-    "Subject Specialization", "Date of Highest Qualification", "University",
-    "Teaching Experience", "Pay Scale", "Additional Pay", "Bank Name", "Bank IFSC",
-    "Bank Account", "University Approval Letter No", "University Approval Date",
-    "Appointment as Principal Date", "DBATU Approval Number", "DBATU Approval Date",
-    "Papers National", "Papers International", "Books National", "Books International",
-    "Conference National", "Conference International", "Citation Index", "Patents Details",
-    "Signature"
+    "Sr. No", "Faculty Name", "Department", "Designation", "Qualification", "Gender",
+    "Category", "Caste", "Birth Date", "Pan No", "Aadhar No", "Mobile No", "Email ID",
+    "Biometric No", "Correspondence Address", "Permanent Address", "Date of Appointment",
+    "Date of Joining", "First Post", "Date of Retirement", "Subject Specialization",
+    "Date of Highest Qualification", "University", "Teaching Experience", "Pay Scale",
+    "Additional Pay", "Bank Name", "Bank IFSC", "Bank Account",
+    "University Approval Letter No", "University Approval Date", "Appointment as Principal Date",
+    "DBATU Approval Number", "DBATU Approval Date", "Papers National", "Papers International",
+    "Books National", "Books International", "Conference National", "Conference International",
+    "Citation Index", "Patents Details", "Signature"
   ];
 
   useEffect(() => {
@@ -68,94 +67,94 @@ const FacultyReport = () => {
   };
 
   const csvHeaders = columnNames.map((col) => ({ label: col, key: col }));
-
-  const csvData = filteredFacultyData.map((faculty, index) => ({
-    "Sr. No": index + 1,
-    ...faculty
-  }));
+  const csvData = filteredFacultyData.map((faculty, index) => ({ "Sr. No": index + 1, ...faculty }));
 
   return (
-    <Box sx={{ p: 4, maxWidth: 1100, mx: "auto", my: 4 }}>
-      <Typography variant="h4" fontWeight="bold" color="text.primary" mb={4}>
+    <Box sx={{ p: 4, maxWidth: 1200, mx: "auto" }}>
+      <Typography variant="h4" fontWeight="bold" mb={4}>
         Faculty Report Generation System
       </Typography>
 
-      <div className="flex flex-wrap items-center gap-4 mb-6">
-        {/* Search Input */}
-        <TextField
-          variant="outlined"
-          placeholder="Search faculty..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          sx={{ minWidth: 700 }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Search className="text-gray-500" size={20} />
-              </InputAdornment>
-            ),
-          }}
-        />
+      {/* Search + Filter Row */}
+      <Grid container spacing={3} alignItems="center" mb={3}>
+        <Grid item xs={12} md={7}>
+          <TextField
+            fullWidth
+            variant="outlined"
+            placeholder="Search faculty..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search size={20} />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Grid>
 
-        {/* Department Select */}
-        <TextField
-          select
-          variant="outlined"
-          value={filterDepartment}
-          onChange={(e) => setFilterDepartment(e.target.value)}
-          sx={{ minWidth: 220, marginLeft:50 }}
-          label="Department"
-        >
-          <MenuItem value="all">All Departments</MenuItem>
-          {departmentOptions.map((dept, idx) => (
-            <MenuItem key={idx} value={dept}>
-              {dept}
-            </MenuItem>
-          ))}
-        </TextField>
-      </div>
+        <Grid item xs={12} md={5}>
+          <TextField
+            select
+            fullWidth
+            label="Department"
+            variant="outlined"
+            value={filterDepartment}
+            onChange={(e) => setFilterDepartment(e.target.value)}
+          >
+            <MenuItem value="all">All Departments</MenuItem>
+            {departmentOptions.map((dept, idx) => (
+              <MenuItem key={idx} value={dept}>{dept}</MenuItem>
+            ))}
+          </TextField>
+        </Grid>
+      </Grid>
 
-      <div className="flex gap-4 mb-4 mt-6">
+      {/* Action Buttons */}
+      <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
         <CSVLink
           headers={csvHeaders}
           data={csvData}
           filename="faculty_data.csv"
-          className="py-2 px-4 bg-green-600 text-white rounded hover:bg-green-700"
+          style={{ textDecoration: 'none' }}
         >
-          Download CSV
+          <Button variant="contained" color="success">Download CSV</Button>
         </CSVLink>
 
-        <button
+        <Button
+          variant="outlined"
+          color="primary"
           onClick={printReport}
-          className="p-2 px-4 ml:6 text-gray-600 hover:text-gray-800 flex items-center"
+          startIcon={<Printer size={20} />}
         >
-          <Printer className="w-5 h-5 mr-2" /> Print
-        </button>
-      </div>
+          Print
+        </Button>
+      </Box>
 
-      {loading ? (
-        <div className="text-center py-8 text-gray-500">Loading faculty data...</div>
-      ) : (
-        <div className="overflow-x-auto border rounded-lg bg-white">
-          {filteredFacultyData.length === 0 ? (
-            <div className="text-center p-6 text-gray-500">No faculty records found.</div>
-          ) : (
-            <>
-              <table className="w-full border-collapse text-sm text-black">
-                <thead className="bg-blue-600 text-white text-xs">
-                  <tr>
-                    {columnNames.map((columnName, index) => (
-                      <th key={index} className="p-2 border whitespace-nowrap">{columnName}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentRows.map((faculty, index) => (
-                    <tr key={faculty.id} className="hover:bg-gray-100 text-center">
-                        <td className="p-2 border">{indexOfFirstRow + index + 1}</td>
-                        <td className="p-2 border">{faculty.facultyName}</td>
-                        <td className="p-2 border">{faculty.department}</td>
-                        <td className="p-2 border">{faculty.designation}</td>
+      {/* Table */}
+      <div className="overflow-x-auto border rounded bg-white">
+        {loading ? (
+          <Typography sx={{ p: 4, textAlign: 'center', color: 'gray' }}>Loading faculty data...</Typography>
+        ) : filteredFacultyData.length === 0 ? (
+          <Typography sx={{ p: 4, textAlign: 'center', color: 'gray' }}>No faculty records found.</Typography>
+        ) : (
+          <>
+            <table className="w-full border-collapse text-sm text-black">
+              <thead className="bg-blue-600 text-white text-xs">
+                <tr>
+                  {columnNames.map((col, idx) => (
+                    <th key={idx} className="p-2 border">{col}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {currentRows.map((faculty, index) => (
+                  <tr key={faculty.id} className="hover:bg-gray-100 text-center">
+                    <td className="p-2 border">{indexOfFirstRow + index + 1}</td>
+                    <td className="p-2 border">{faculty.facultyName}</td>
+                    <td className="p-2 border">{faculty.department}</td>
+                    <td className="p-2 border">{faculty.designation}</td>
                         <td className="p-2 border">{faculty.qualification}</td>
                         <td className="p-2 border">{faculty.gender}</td>
                         <td className="p-2 border">{faculty.category}</td>
@@ -195,35 +194,20 @@ const FacultyReport = () => {
                         <td className="p-2 border">{faculty.citationIndex}</td>
                         <td className="p-2 border">{faculty.patentsDetails}</td>
                         <td className="p-2 border">{faculty.signature}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
 
-              {/* Pagination Controls */}
-              <div className="flex justify-center items-center gap-4 py-4">
-                <button
-                  className="px-4 py-1 border rounded hover:bg-gray-100"
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                >
-                  Prev
-                </button>
-                <span className="text-sm font-medium">
-                  Page {currentPage} of {totalPages}
-                </span>
-                <button
-                  className="px-4 py-1 border rounded hover:bg-gray-100"
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                >
-                  Next
-                </button>
-              </div>
-            </>
-          )}
-        </div>
-      )}
+            {/* Pagination */}
+            <Box display="flex" justifyContent="center" alignItems="center" gap={2} py={3}>
+              <Button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Prev</Button>
+              <Typography>Page {currentPage} of {totalPages}</Typography>
+              <Button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>Next</Button>
+            </Box>
+          </>
+        )}
+      </div>
     </Box>
   );
 };
