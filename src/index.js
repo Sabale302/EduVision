@@ -12,6 +12,7 @@ import manageUserRoutes from './routes/manageUserRoutes.js';
 import placementRoutes from './routes/placementRoutes.js';
 import User from './models/userModel.js'
 import fileUpload from 'express-fileupload';
+import facultyRoutes from './routes/facultyRoutes.js';
 
 dotenv.config({ path: './.env' });
 
@@ -49,6 +50,7 @@ app.use(fileUpload({
 }));
 
 // Routes
+app.use('/api', facultyRoutes);
 app.use("/api/auth", authRoutes);
 app.use('/api/profile', updateprofileRoutes);
 app.use('/api/role-permissions', rolePermissionsRoutes);
