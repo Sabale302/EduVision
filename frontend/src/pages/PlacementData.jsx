@@ -22,7 +22,7 @@ const PlacementData = () => {
     formData.append("file", file);
 
     try {
-      const res = await axios.post("https://eduvision-r00l.onrender.com/upload", formData);
+      const res = await axios.post("https://eduvision-r00l.onrender.com/api/placements/upload", formData);
       setPreviewData(res.data.preview || []);
       setColumns(res.data.columns || []);
       setError(null);
@@ -54,7 +54,7 @@ const PlacementData = () => {
 
   const applyFilters = async () => {
     try {
-      const res = await axios.post("https://eduvision-r00l.onrender.com/filter", { filters });
+      const res = await axios.post("https://eduvision-r00l.onrender.com/api/placements/filter", { filters });
       setPreviewData(res.data.filtered_preview);
     } catch (err) {
       setError(err.message);
@@ -68,7 +68,7 @@ const PlacementData = () => {
 
   const applyColumnChanges = async () => {
     try {
-      const res = await axios.post("https://eduvision-r00l.onrender.com/apply-column-changes", {
+      const res = await axios.post("https://eduvision-r00l.onrender.com/api/placements/apply-column-changes", {
         selectColumns: selectedColumns,
       });
       setPreviewData(res.data.filtered_data);
