@@ -2,17 +2,17 @@ export const dashboardCards = [
     { 
         title: "Financial Dashboard", 
         link: "/dashboard/financial", 
-        image: "/images/financial_dashboard.png" 
+        image: "/images/HOD.jpg" 
     },
     { 
         title: "Principal Dashboard", 
         link: "/dashboard/principal", 
-        image: "/images/principal_dashboard.png" 
+        image: "/images/Principal.jpg" 
     },
     { 
         title: "HOD Dashboard", 
         link: "/dashboard/hod", 
-        image: "/images/hod_dashboard.png" 
+        image: "/images/HOD.jpg" 
     },
     { 
         title: "Faculty Analytical Dashboard", 
@@ -23,12 +23,12 @@ export const dashboardCards = [
     { 
         title: "Student Performance Dashboard", 
         link: "/dashboard/student-performance", 
-        image: "/images/student_performance_dashboard.png" 
+        image: "/images/Faculty.jpg" 
     },
     { 
         title: "Student Profile Dashboard", 
         link: "/dashboard/student-profile", 
-        image: "/images/student_profile_dashboard.png" 
+        image: "/images/Faculty.jpg" 
     },
     { 
         title: "Placement Dashboard", 
