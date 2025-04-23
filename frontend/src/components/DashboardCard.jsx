@@ -1,10 +1,5 @@
 export const dashboardCards = [
     { 
-        title: "Financial Dashboard", 
-        link: "/dashboard/financial", 
-        image: "/images/HOD.jpg" 
-    },
-    { 
         title: "Principal Dashboard", 
         link: "/dashboard/principal", 
         image: "/images/Principal.jpg" 
@@ -23,12 +18,12 @@ export const dashboardCards = [
     { 
         title: "Student Performance Dashboard", 
         link: "/dashboard/student-performance", 
-        image: "/images/Faculty.jpg" 
+        image: "/images/Student_Performance.jpg" 
     },
     { 
         title: "Student Profile Dashboard", 
         link: "/dashboard/student-profile", 
-        image: "/images/Faculty.jpg" 
+        image: "/images/Student_Profile.jpg" 
     },
     { 
         title: "Placement Dashboard", 
