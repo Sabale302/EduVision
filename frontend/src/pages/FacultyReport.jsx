@@ -29,20 +29,26 @@ const FacultyReport = () => {
   useEffect(() => {
     fetch('https://eduvision-r00l.onrender.com/api/faculty')
       .then(res => {
-        if (!res.ok) throw new Error("Failed to fetch");
+        if (!res.ok) {
+          throw new Error(`HTTP error ${res.status}`);
+        }
         return res.json();
       })
       .then(data => {
-        setFacultyData(Array.isArray(data) ? data : []);
+        if (Array.isArray(data)) {
+          setFacultyData(data);
+        } else {
+          console.warn('Unexpected data format:', data);
+          setFacultyData([]);
+        }
         setLoading(false);
       })
       .catch(err => {
         console.error('Error fetching faculty data:', err);
-        setFacultyData([]); // Prevent crash
+        setFacultyData([]); // Prevents crashing .map()
         setLoading(false);
       });
-  }, []);
-  
+  }, []);  
 
   const departmentOptions = useMemo(() => {
     const uniqueDepts = [...new Set(facultyData.map(f => f.department))];

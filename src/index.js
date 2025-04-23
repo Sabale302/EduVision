@@ -50,7 +50,7 @@ app.use(fileUpload({
 }));
 
 // Routes
-app.use('/api', facultyRoutes);
+app.use('/api/faculty', facultyRoutes);
 app.use("/api/auth", authRoutes);
 app.use('/api/profile', updateprofileRoutes);
 app.use('/api/role-permissions', rolePermissionsRoutes);
