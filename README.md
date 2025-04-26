@@ -3,7 +3,6 @@
 ![Built with React](https://img.shields.io/badge/Built%20with-React-61DAFB?logo=react&logoColor=white)
 ![AI Powered](https://img.shields.io/badge/AI-Powered-blueviolet)
 ![Status](https://img.shields.io/badge/Status-Active-success)
-![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
