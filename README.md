@@ -1,5 +1,26 @@
 # 📚 EduVision
 
+![Built with React](https://img.shields.io/badge/Built%20with-React-61DAFB?logo=react&logoColor=white)
+![AI Powered](https://img.shields.io/badge/AI-Powered-blueviolet)
+![Status](https://img.shields.io/badge/Status-Active-success)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+---
+
+## 🧭 Table of Contents
+
+- [About EduVision](#about-eduvision)
+- [Visual Overview](#-visual-overview)
+- [Key Features](#-key-features)
+- [AI-Powered Predictive Analytics](#-ai-powered-predictive-analytics)
+- [Folder Structure](#-folder-structure)
+- [Notes](#-note)
+- [Thank You](#-️-thank-you-for-exploring-eduvision)
+
+---
+
+## About EduVision
+
 Moving away from a text-centric and word-heavy approach, **EduVision** focuses on **interactive visualization** of the client's core activities and projects.
 
 This visualization allows users to gain **quick insights** based on individual interests.  
