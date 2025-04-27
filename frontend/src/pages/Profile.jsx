@@ -11,7 +11,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      fetch('http://localhost:7002/api/profile', {
+      fetch('https://eduvision-r00l.onrender.com/api/profile', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

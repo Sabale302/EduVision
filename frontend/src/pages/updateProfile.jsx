@@ -12,7 +12,7 @@ const UpdateProfile = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      fetch('http://localhost:7002/api/profile', {
+      fetch('https://eduvision-r00l.onrender.com/api/profile', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -35,7 +35,7 @@ const UpdateProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-    const response = await fetch('http://localhost:7002/api/profile/updateProfile', {
+    const response = await fetch('https://eduvision-r00l.onrender.com/api/profile/updateProfile', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
@@ -56,7 +55,7 @@ export const AuthProvider = ({ children }) => {
             const token = localStorage.getItem('token');
             console.log("Fetching permissions for role:", role);
             
-            const response = await fetch(`http://localhost:7002/api/role-permissions/${role}`, {
+            const response = await fetch(`https://eduvision-r00l.onrender.com/api/role-permissions/${role}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -82,7 +81,7 @@ export const AuthProvider = ({ children }) => {
     const login = async (username, password) => {
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:7002/api/auth/login', {
+            const response = await fetch('https://eduvision-r00l.onrender.com/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),
