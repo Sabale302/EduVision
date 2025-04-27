@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography, Paper, CircularProgress, Box } from '@mui/material';
-import { useAuth } from '../context/authContext'
+import { useAuth } from '../context/authContext';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -9,7 +9,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const { fetchPermissions } = useAuth(); 
+    const { login } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,37 +17,11 @@ const Login = () => {
         setError(''); // Clear previous errors
 
         try {
-            const response = await fetch('https://eduvision-r00l.onrender.com/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password }),
-            });
-
-            if (!response.ok) {
-                const responseText = await response.text();
-                throw new Error(responseText || 'Invalid credentials');
-            }
-
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
-
-            let tokenPayload;
-            try {
-                tokenPayload = JSON.parse(atob(data.token.split('.')[1]));
-            } catch (error) {
-                console.error("Invalid token:", error);
-                setError("Invalid login response. Please try again.");
-                return;
-            }
-
-            if (fetchPermissions) {
-                await fetchPermissions(tokenPayload.role);
-            }
-
+            await login(username, password);
             navigate('/home');
         } catch (error) {
             console.error(error);
-            setError(error.message);
+            setError(error.message || 'Login failed');
         } finally {
             setLoading(false);
         }
