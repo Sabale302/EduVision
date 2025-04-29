@@ -68,16 +68,30 @@ router.get('/generate-excel', (req, res) => {
 router.post('/upload', upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
 
-  const buffer = req.file.buffer;
-  const wb = xlsx.read(buffer, { type: 'buffer' });
-  const ws = wb.Sheets[wb.SheetNames[0]];
-  const jsonData = xlsx.utils.sheet_to_json(ws);
+  try {
+    const buffer = req.file.buffer;
+    const wb = xlsx.read(buffer, { type: 'buffer' });
 
-  uploadedDataFrame = jsonData;
-  res.status(200).json({
-    preview: jsonData.slice(0, 5),
-    columns: Object.keys(jsonData[0] || {})
-  });
+    if (!wb.SheetNames.length) {
+      return res.status(400).json({ error: 'Uploaded file contains no sheets' });
+    }
+
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    const jsonData = xlsx.utils.sheet_to_json(ws);
+
+    if (!jsonData.length) {
+      return res.status(400).json({ error: 'Sheet is empty or invalid format' });
+    }
+
+    uploadedDataFrame = jsonData;
+    res.status(200).json({
+      preview: jsonData.slice(0, 5),
+      columns: Object.keys(jsonData[0] || {})
+    });
+  } catch (error) {
+    console.error('Error processing uploaded Excel:', error);
+    res.status(500).json({ error: 'Failed to parse Excel file. Ensure the file is valid and non-empty.' });
+  }
 });
 
 // Apply Column Filters
