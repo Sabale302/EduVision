@@ -66,29 +66,31 @@ router.get('/generate-excel', (req, res) => {
 
 // Upload Placement Data (Excel / CSV)
 router.post('/upload', upload.single('file'), (req, res) => {
-  console.log('Upload route hit');
-  console.log('File metadata:', req.file);
-
   if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
 
   try {
     const buffer = req.file.buffer;
-    if (!buffer) return res.status(400).json({ error: 'No file buffer found' });
+    const originalName = req.file.originalname.toLowerCase();
 
-    const wb = xlsx.read(buffer, { type: 'buffer' });
+    let wb;
+
+    if (originalName.endsWith('.csv')) {
+      // Parse CSV string instead of binary buffer
+      const csvStr = buffer.toString('utf8');
+      wb = xlsx.read(csvStr, { type: 'string' }); // key difference for CSV
+    } else {
+      wb = xlsx.read(buffer, { type: 'buffer' }); // for .xlsx
+    }
 
     if (!wb.SheetNames.length) {
-      return res.status(400).json({ error: 'No sheets found in Excel file.' });
+      return res.status(400).json({ error: 'No sheets found in file.' });
     }
 
     const ws = wb.Sheets[wb.SheetNames[0]];
-    if (!ws) {
-      return res.status(400).json({ error: 'Unable to read worksheet.' });
-    }
-
     const jsonData = xlsx.utils.sheet_to_json(ws);
+
     if (!Array.isArray(jsonData) || jsonData.length === 0) {
-      return res.status(400).json({ error: 'Worksheet is empty or not valid tabular data.' });
+      return res.status(400).json({ error: 'File is empty or invalid format.' });
     }
 
     uploadedDataFrame = jsonData;
@@ -97,13 +99,9 @@ router.post('/upload', upload.single('file'), (req, res) => {
       preview: jsonData.slice(0, 5),
       columns: Object.keys(jsonData[0] || {})
     });
-  } catch (error) {
-    console.error('Excel processing error:', error); // <== Important
-    res.status(500).json({
-      error: 'Excel parsing failed',
-      message: error.message,
-      stack: error.stack
-    });
+  } catch (err) {
+    console.error('Upload error:', err);
+    res.status(500).json({ error: 'Failed to parse uploaded file', message: err.message });
   }
 });
 
