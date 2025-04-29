@@ -27,7 +27,7 @@ const FacultyReport = () => {
   ];
 
   useEffect(() => {
-    fetch('https://eduvision-r00l.onrender.com/api/faculty')
+    fetch('https://eduvision-r00l.onrender.com/api/faculty/faculty')
       .then(res => {
         if (!res.ok) {
           throw new Error(`HTTP error ${res.status}`);
