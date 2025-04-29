@@ -115,6 +115,42 @@ export const createPlacement = async (req, res) => {
     }
 };
 
+// Simple handler for testing file uploads (photo and cv)
+export const savePlacementData = (req, res) => {
+    try {
+        const cvFile = req.files?.['cv']?.[0];
+        const photoFile = req.files?.['photo']?.[0];
+
+        if (!cvFile || !photoFile) {
+            return res.status(400).json({ 
+                success: false,
+                message: 'CV or photo file missing' 
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: 'Files uploaded successfully',
+            cv: {
+                originalname: cvFile.originalname,
+                mimetype: cvFile.mimetype,
+                size: cvFile.size
+            },
+            photo: {
+                originalname: photoFile.originalname,
+                mimetype: photoFile.mimetype,
+                size: photoFile.size
+            }
+        });
+    } catch (error) {
+        console.error('Error saving placement data:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal server error',
+            error: error.message
+        });
+    }
+};
 
 // Get all placements (for admin use)
 export const getAllPlacements = async (req, res) => {
