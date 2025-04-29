@@ -66,31 +66,44 @@ router.get('/generate-excel', (req, res) => {
 
 // Upload Placement Data (Excel / CSV)
 router.post('/upload', upload.single('file'), (req, res) => {
+  console.log('Upload route hit');
+  console.log('File metadata:', req.file);
+
   if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
 
   try {
     const buffer = req.file.buffer;
+    if (!buffer) return res.status(400).json({ error: 'No file buffer found' });
+
     const wb = xlsx.read(buffer, { type: 'buffer' });
 
     if (!wb.SheetNames.length) {
-      return res.status(400).json({ error: 'Uploaded file contains no sheets' });
+      return res.status(400).json({ error: 'No sheets found in Excel file.' });
     }
 
     const ws = wb.Sheets[wb.SheetNames[0]];
-    const jsonData = xlsx.utils.sheet_to_json(ws);
+    if (!ws) {
+      return res.status(400).json({ error: 'Unable to read worksheet.' });
+    }
 
-    if (!jsonData.length) {
-      return res.status(400).json({ error: 'Sheet is empty or invalid format' });
+    const jsonData = xlsx.utils.sheet_to_json(ws);
+    if (!Array.isArray(jsonData) || jsonData.length === 0) {
+      return res.status(400).json({ error: 'Worksheet is empty or not valid tabular data.' });
     }
 
     uploadedDataFrame = jsonData;
+
     res.status(200).json({
       preview: jsonData.slice(0, 5),
       columns: Object.keys(jsonData[0] || {})
     });
   } catch (error) {
-    console.error('Error processing uploaded Excel:', error);
-    res.status(500).json({ error: 'Failed to parse Excel file. Ensure the file is valid and non-empty.' });
+    console.error('Excel processing error:', error); // <== Important
+    res.status(500).json({
+      error: 'Excel parsing failed',
+      message: error.message,
+      stack: error.stack
+    });
   }
 });
 
