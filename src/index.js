@@ -18,25 +18,27 @@ dotenv.config({ path: './.env' });
 
 const app = express();
 
-// 📌 CORS Config
+// ✅ CORS Configuration
 const allowedOrigins = ['https://www.kbpcsedept.in'];
 
-app.use(cors({
+const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin) return callback(null, true);  // Allow server-to-server / Postman requests
+    if (!origin) return callback(null, true); // Allow Postman / curl
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     } else {
-      return callback(new Error('CORS policy blocked this origin: ' + origin));
+      return callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
-}));
+};
 
-// Handle preflight OPTIONS requests globally
-app.options('*', cors());
+app.use(cors(corsOptions));
+
+// ✅ Make sure this line comes AFTER `app.use(cors(...))`
+app.options('*', cors(corsOptions));  // Use same options for preflight
 
 // Middleware
 app.use(express.json());
