@@ -6,7 +6,7 @@ import cors from 'cors';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import { savePlacementData } from '../controllers/placementController.js';
+import { createPlacement, getAllPlacements, getPlacementById, getPlacementFile } from '../controllers/placementController.js';
 import { env } from 'process';
 
 const router = express.Router();
@@ -24,6 +24,18 @@ const db = mysql.createPool({
 });
 
 let uploadedDataFrame = null;
+
+// Create new placement record
+router.post('/', createPlacement);
+
+// Get all placements (for admin)
+router.get('/', getAllPlacements);
+
+// Get a specific placement by ID
+router.get('/:id', getPlacementById);
+
+// Get CV or photo for a placement
+router.get('/:id/:fileType', getPlacementFile);
 
 // Excel generator (faculty info)
 router.get('/generate-excel', (req, res) => {
