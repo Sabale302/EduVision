@@ -20,16 +20,24 @@ const PlacementData = () => {
     if (!file) return alert("Please select a file.");
     const formData = new FormData();
     formData.append("file", file);
-
+  
     try {
-      const res = await axios.post("https://eduvision-r00l.onrender.com/api/placements/upload", formData);
+      const res = await axios.post(
+        "https://eduvision-r00l.onrender.com/api/placements/upload",
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      );
       setPreviewData(res.data.preview || []);
       setColumns(res.data.columns || []);
       setError(null);
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     }
-  };
+  };  
 
   const handleColumnChange = (e) => {
     const column = e.target.name;
