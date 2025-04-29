@@ -6,8 +6,13 @@ import cors from 'cors';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import { createPlacement, getAllPlacements, getPlacementById, getPlacementFile } from '../controllers/placementController.js';
-import { env } from 'process';
+import {
+  createPlacement,
+  getAllPlacements,
+  getPlacementById,
+  getPlacementFile,
+  savePlacementData
+} from '../controllers/placementController.js';
 
 const router = express.Router();
 router.use(cors());
@@ -18,7 +23,7 @@ const fileUpload = multer({ dest: 'uploads/' });
 // MySQL connection pool
 const db = mysql.createPool({
   host: process.env.MYSQL_HOST,
-  user:   process.env.MYSQL_USER,
+  user: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DB
 });
@@ -128,6 +133,6 @@ router.post('/apply-column-changes', (req, res) => {
 });
 
 // Placement form submission (CV + Photo)
-router.post('/save', fileUpload.fields([{ name: 'cv' }, { name: 'photo' }]), savePlacementData);
+router.post('/save', fileUpload.fields([{ name: 'cv' }, { name: 'photo' }]), savePlacementData); // ✅ Now this works
 
 export default router;
