@@ -1,15 +1,16 @@
 import { Printer, Search } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import { CSVLink } from 'react-csv';
-import { Box, Typography, TextField, InputAdornment, MenuItem, Button, Grid} from "@mui/material";
+import {
+  Box, Typography, TextField, InputAdornment,
+  MenuItem, Button, Grid
+} from "@mui/material";
 
 const FacultyReport = () => {
   const [facultyData, setFacultyData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterDepartment, setFilterDepartment] = useState('all');
   const [loading, setLoading] = useState(true);
-
-  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
 
@@ -29,30 +30,32 @@ const FacultyReport = () => {
   useEffect(() => {
     fetch('https://eduvision-r00l.onrender.com/api/faculty/faculty')
       .then(res => {
-        if (!res.ok) {
-          throw new Error(`HTTP error ${res.status}`);
-        }
+        if (!res.ok) throw new Error(`HTTP error ${res.status}`);
         return res.json();
       })
       .then(data => {
-        if (Array.isArray(data)) {
-          setFacultyData(data);
-        } else {
-          console.warn('Unexpected data format:', data);
-          setFacultyData([]);
-        }
+        const cleaned = Array.isArray(data) ? data.map(faculty => {
+          const cleanedFaculty = {};
+          for (let key in faculty) {
+            const value = faculty[key];
+            cleanedFaculty[key] = (typeof value === 'object' && value !== null)
+              ? JSON.stringify(value)
+              : value ?? '';
+          }
+          return cleanedFaculty;
+        }) : [];
+        setFacultyData(cleaned);
         setLoading(false);
       })
       .catch(err => {
         console.error('Error fetching faculty data:', err);
-        setFacultyData([]); // Prevents crashing .map()
+        setFacultyData([]);
         setLoading(false);
       });
-  }, []);  
+  }, []);
 
   const departmentOptions = useMemo(() => {
-    const uniqueDepts = [...new Set(facultyData.map(f => f.department))];
-    return uniqueDepts.sort();
+    return [...new Set(facultyData.map(f => f.department))].sort();
   }, [facultyData]);
 
   const filteredFacultyData = useMemo(() => {
@@ -63,7 +66,6 @@ const FacultyReport = () => {
     );
   }, [facultyData, searchTerm, filterDepartment]);
 
-  // Pagination logic
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = filteredFacultyData.slice(indexOfFirstRow, indexOfLastRow);
@@ -73,12 +75,13 @@ const FacultyReport = () => {
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
 
-  const printReport = () => {
-    window.print();
-  };
+  const printReport = () => window.print();
 
-  const csvHeaders = columnNames.map((col) => ({ label: col, key: col }));
-  const csvData = filteredFacultyData.map((faculty, index) => ({ "Sr. No": index + 1, ...faculty }));
+  const csvHeaders = columnNames.map(col => ({ label: col, key: col }));
+  const csvData = filteredFacultyData.map((faculty, index) => ({
+    "Sr. No": index + 1,
+    ...faculty
+  }));
 
   return (
     <Box sx={{ p: 4, maxWidth: 1200, mx: "auto", my: 4 }}>
@@ -86,7 +89,6 @@ const FacultyReport = () => {
         Faculty Report Generation System
       </Typography>
 
-      {/* Search + Filter Row */}
       <Grid container spacing={3} alignItems="center" mb={3}>
         <Grid item xs={12} md={7}>
           <TextField
@@ -104,7 +106,6 @@ const FacultyReport = () => {
             }}
           />
         </Grid>
-
         <Grid item xs={12} md={5}>
           <TextField
             select
@@ -122,7 +123,6 @@ const FacultyReport = () => {
         </Grid>
       </Grid>
 
-      {/* Action Buttons */}
       <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
         <CSVLink
           headers={csvHeaders}
@@ -143,12 +143,15 @@ const FacultyReport = () => {
         </Button>
       </Box>
 
-      {/* Table */}
       <div className="overflow-x-auto border rounded bg-white">
         {loading ? (
-          <Typography sx={{ p: 4, textAlign: 'center', color: 'gray' }}>Loading faculty data...</Typography>
+          <Typography sx={{ p: 4, textAlign: 'center', color: 'gray' }}>
+            Loading faculty data...
+          </Typography>
         ) : filteredFacultyData.length === 0 ? (
-          <Typography sx={{ p: 4, textAlign: 'center', color: 'gray' }}>No faculty records found.</Typography>
+          <Typography sx={{ p: 4, textAlign: 'center', color: 'gray' }}>
+            No faculty records found.
+          </Typography>
         ) : (
           <>
             <table className="w-full border-collapse text-sm text-black">
@@ -161,56 +164,34 @@ const FacultyReport = () => {
               </thead>
               <tbody>
                 {currentRows.map((faculty, index) => (
-                  <tr key={faculty.id} className="hover:bg-gray-100 text-center">
-                    <td className="p-2 border">{indexOfFirstRow + index + 1}</td>
-                    <td className="p-2 border">{faculty.facultyName}</td>
-                    <td className="p-2 border">{faculty.department}</td>
-                    <td className="p-2 border">{faculty.designation}</td>
-                        <td className="p-2 border">{faculty.qualification}</td>
-                        <td className="p-2 border">{faculty.gender}</td>
-                        <td className="p-2 border">{faculty.category}</td>
-                        <td className="p-2 border">{faculty.caste}</td>
-                        <td className="p-2 border">{faculty.birthDate}</td>
-                        <td className="p-2 border">{faculty.panNo}</td>
-                        <td className="p-2 border">{faculty.aadharNo}</td>
-                        <td className="p-2 border">{faculty.mobileNo}</td>
-                        <td className="p-2 border">{faculty.emailId}</td>
-                        <td className="p-2 border">{faculty.biometricNo}</td>
-                        <td className="p-2 border">{faculty.correspondenceAddress}</td>
-                        <td className="p-2 border">{faculty.permanentAddress}</td>
-                        <td className="p-2 border">{faculty.dateOfAppointment}</td>
-                        <td className="p-2 border">{faculty.dateOfJoining}</td>
-                        <td className="p-2 border">{faculty.firstPost}</td>
-                        <td className="p-2 border">{faculty.dateOfRetirement}</td>
-                        <td className="p-2 border">{faculty.subjectSpecialization}</td>
-                        <td className="p-2 border">{faculty.dateOfHighestQualification}</td>
-                        <td className="p-2 border">{faculty.university}</td>
-                        <td className="p-2 border">{faculty.teachingExperience}</td>
-                        <td className="p-2 border">{faculty.payScale}</td>
-                        <td className="p-2 border">{faculty.additionalPay}</td>
-                        <td className="p-2 border">{faculty.bankName}</td>
-                        <td className="p-2 border">{faculty.bankIfsc}</td>
-                        <td className="p-2 border">{faculty.bankAccount}</td>
-                        <td className="p-2 border">{faculty.universityApprovalLetterNo}</td>
-                        <td className="p-2 border">{faculty.universityApprovalDate}</td>
-                        <td className="p-2 border">{faculty.appointmentAsPrincipalDate}</td>
-                        <td className="p-2 border">{faculty.dbatuApprovalNumber}</td>
-                        <td className="p-2 border">{faculty.dbatuApprovalDate}</td>
-                        <td className="p-2 border">{faculty.papersNational}</td>
-                        <td className="p-2 border">{faculty.papersInternational}</td>
-                        <td className="p-2 border">{faculty.booksNational}</td>
-                        <td className="p-2 border">{faculty.booksInternational}</td>
-                        <td className="p-2 border">{faculty.conferenceNational}</td>
-                        <td className="p-2 border">{faculty.conferenceInternational}</td>
-                        <td className="p-2 border">{faculty.citationIndex}</td>
-                        <td className="p-2 border">{faculty.patentsDetails}</td>
-                        <td className="p-2 border">{faculty.signature}</td>
+                  <tr key={faculty.id || index} className="hover:bg-gray-100 text-center">
+                    {[
+                      indexOfFirstRow + index + 1,
+                      faculty.facultyName, faculty.department, faculty.designation,
+                      faculty.qualification, faculty.gender, faculty.category,
+                      faculty.caste, faculty.birthDate, faculty.panNo, faculty.aadharNo,
+                      faculty.mobileNo, faculty.emailId, faculty.biometricNo,
+                      faculty.correspondenceAddress, faculty.permanentAddress,
+                      faculty.dateOfAppointment, faculty.dateOfJoining, faculty.firstPost,
+                      faculty.dateOfRetirement, faculty.subjectSpecialization,
+                      faculty.dateOfHighestQualification, faculty.university,
+                      faculty.teachingExperience, faculty.payScale, faculty.additionalPay,
+                      faculty.bankName, faculty.bankIfsc, faculty.bankAccount,
+                      faculty.universityApprovalLetterNo, faculty.universityApprovalDate,
+                      faculty.appointmentAsPrincipalDate, faculty.dbatuApprovalNumber,
+                      faculty.dbatuApprovalDate, faculty.papersNational,
+                      faculty.papersInternational, faculty.booksNational,
+                      faculty.booksInternational, faculty.conferenceNational,
+                      faculty.conferenceInternational, faculty.citationIndex,
+                      faculty.patentsDetails, faculty.signature
+                    ].map((val, i) => (
+                      <td key={i} className="p-2 border">{String(val ?? '')}</td>
+                    ))}
                   </tr>
                 ))}
               </tbody>
             </table>
 
-            {/* Pagination */}
             <Box display="flex" justifyContent="center" alignItems="center" gap={2} py={3}>
               <Button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Prev</Button>
               <Typography>Page {currentPage} of {totalPages}</Typography>
