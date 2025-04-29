@@ -66,42 +66,50 @@ router.get('/generate-excel', (req, res) => {
 
 // Upload Placement Data (Excel / CSV)
 router.post('/upload', upload.single('file'), (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-
   try {
-    const buffer = req.file.buffer;
-    const originalName = req.file.originalname.toLowerCase();
+    console.log('Received file:', req.file?.originalname);
+    console.log('File size:', req.file?.size);
+    console.log('File buffer exists:', !!req.file?.buffer);
 
+    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+
+    const buffer = req.file.buffer;
+    if (!buffer) return res.status(400).json({ error: 'No buffer found in uploaded file.' });
+
+    const originalName = req.file.originalname.toLowerCase();
     let wb;
 
     if (originalName.endsWith('.csv')) {
-      // Parse CSV string instead of binary buffer
       const csvStr = buffer.toString('utf8');
-      wb = xlsx.read(csvStr, { type: 'string' }); // key difference for CSV
+      wb = xlsx.read(csvStr, { type: 'string' });
     } else {
-      wb = xlsx.read(buffer, { type: 'buffer' }); // for .xlsx
+      wb = xlsx.read(buffer, { type: 'buffer' });
     }
 
     if (!wb.SheetNames.length) {
-      return res.status(400).json({ error: 'No sheets found in file.' });
+      return res.status(400).json({ error: 'No sheets found in the file.' });
     }
 
     const ws = wb.Sheets[wb.SheetNames[0]];
     const jsonData = xlsx.utils.sheet_to_json(ws);
 
-    if (!Array.isArray(jsonData) || jsonData.length === 0) {
-      return res.status(400).json({ error: 'File is empty or invalid format.' });
+    if (!jsonData.length) {
+      return res.status(400).json({ error: 'No data found in the file.' });
     }
 
     uploadedDataFrame = jsonData;
 
-    res.status(200).json({
+    return res.status(200).json({
       preview: jsonData.slice(0, 5),
       columns: Object.keys(jsonData[0] || {})
     });
   } catch (err) {
-    console.error('Upload error:', err);
-    res.status(500).json({ error: 'Failed to parse uploaded file', message: err.message });
+    console.error('Error during upload:', err); // Log full error
+    return res.status(500).json({
+      error: 'Internal server error',
+      message: err.message,
+      stack: err.stack
+    });
   }
 });
 
