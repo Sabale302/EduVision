@@ -1,13 +1,15 @@
 export const dashboardCards = [
     { 
         title: "Principal Dashboard", 
-        link: "/dashboard/principal", 
-        image: "/images/Principal.jpg" 
+        link: "https://app.powerbi.com/view?r=eyJrIjoiMmYxMTdlYzAtZTU4YS00MjZmLWFlMTYtNzg5NTc1NjI1NzIzIiwidCI6ImIxMWIxNTJkLWYxMzctNDhmYi04MDI0LTE5MTk4NDMwNTM0YyJ9", 
+        image: "/images/Principal.jpg",
+        isPowerBI: true  
     },
     { 
         title: "HOD Dashboard", 
-        link: "/dashboard/hod", 
-        image: "/images/HOD.jpg" 
+        link: "https://app.powerbi.com/view?r=eyJrIjoiYzdmOTRmM2MtNDRkOC00YmUzLWI0NzctYWY0OGI3YzA0NjUyIiwidCI6ImIxMWIxNTJkLWYxMzctNDhmYi04MDI0LTE5MTk4NDMwNTM0YyJ9", 
+        image: "/images/HOD.jpg",
+        isPowerBI: true 
     },
     { 
         title: "Faculty Analytical Dashboard", 
@@ -16,14 +18,10 @@ export const dashboardCards = [
         isPowerBI: true  
     },
     { 
-        title: "Student Performance Dashboard", 
-        link: "/dashboard/student-performance", 
-        image: "/images/Student_Performance.jpg" 
-    },
-    { 
         title: "Student Profile Dashboard", 
-        link: "/dashboard/student-profile", 
-        image: "/images/Student_Profile.jpg" 
+        link: "https://app.powerbi.com/view?r=eyJrIjoiYTc2OTk5MWYtZDhmNi00OTJjLWE4YzAtMDZjOGJhNjkzNmVmIiwidCI6ImIxMWIxNTJkLWYxMzctNDhmYi04MDI0LTE5MTk4NDMwNTM0YyJ9", 
+        image: "/images/Student_Profile.jpg",
+        isPowerBI: true
     },
     { 
         title: "Placement Dashboard", 
