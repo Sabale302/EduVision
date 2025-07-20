@@ -18,7 +18,6 @@ dotenv.config({ path: './.env' });
 
 const app = express();
 
-// ✅ CORS Configuration
 const allowedOrigins = ['https://www.kbpcsedept.in'];
 
 const corsOptions = {
@@ -36,9 +35,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
-// ✅ Make sure this line comes AFTER `app.use(cors(...))`
-app.options('*', cors(corsOptions));  // Use same options for preflight
+app.options('*', cors(corsOptions)); 
 
 // Middleware
 app.use(express.json());

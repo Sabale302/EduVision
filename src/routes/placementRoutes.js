@@ -11,7 +11,8 @@ import {
   savePlacementData,
   columnFilters,
   applyColumnChanges,
-  generateExcel
+  generateExcel,
+  uploadPlacementData
 } from '../controllers/placementController.js';
 
 const router = express.Router();
