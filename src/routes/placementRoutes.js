@@ -1,17 +1,17 @@
 import express from 'express';
 import mysql from 'mysql2';
 import multer from 'multer';
-import xlsx from 'xlsx';
 import cors from 'cors';
-import path from 'path';
-import fs from 'fs';
-import { fileURLToPath } from 'url';
+
 import {
   createPlacement,
   getAllPlacements,
   getPlacementById,
   getPlacementFile,
-  savePlacementData
+  savePlacementData,
+  columnFilters,
+  applyColumnChanges,
+  generateExcel
 } from '../controllers/placementController.js';
 
 const router = express.Router();
@@ -30,142 +30,16 @@ const db = mysql.createPool({
 
 let uploadedDataFrame = null;
 
-// Create new placement record
-router.post('/', createPlacement);
+router.post('/', createPlacement); // Create new placement record
+router.get('/', getAllPlacements); // Get all placements (for admin)
+router.get('/:id', getPlacementById); // Get a specific placement by ID
+router.get('/:id/:fileType', getPlacementFile); // Get CV or photo for a placement
 
-// Get all placements (for admin)
-router.get('/', getAllPlacements);
+router.post('/upload', upload.single('file'), uploadPlacementData); // Upload Placement Data (Excel / CSV)
+router.get('/generate-excel', generateExcel); // Excel generator (faculty info)
+router.post('/filter', columnFilters); // Apply Column Filters
+router.post('/apply-column-changes', applyColumnChanges); // Apply Selected Columns
+router.post('/save', fileUpload.fields([{ name: 'cv' }, { name: 'photo' }]), savePlacementData); // Placement form submission (CV + Photo)
 
-// Get a specific placement by ID
-router.get('/:id', getPlacementById);
-
-// Get CV or photo for a placement
-router.get('/:id/:fileType', getPlacementFile);
-
-// Excel generator (faculty info)
-router.get('/generate-excel', (req, res) => {
-  const query = 'SELECT * FROM faculties';
-  db.query(query, (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
-
-    const wb = xlsx.utils.book_new();
-    const ws = xlsx.utils.json_to_sheet(results);
-    xlsx.utils.book_append_sheet(wb, ws, 'FacultyData');
-
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-    const outputDir = path.join(__dirname, 'output');
-
-    if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir);
-    const filePath = path.join(outputDir, 'faculty_data.xlsx');
-    xlsx.writeFile(wb, filePath);
-
-    res.download(filePath);
-  });
-});
-
-// Upload Placement Data (Excel / CSV)
-router.post('/upload', upload.single('file'), (req, res) => {
-  try {
-    console.log('Received file:', req.file?.originalname);
-    console.log('File size:', req.file?.size);
-    console.log('File buffer exists:', !!req.file?.buffer);
-
-    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-
-    const buffer = req.file.buffer;
-    if (!buffer) return res.status(400).json({ error: 'No buffer found in uploaded file.' });
-
-    const originalName = req.file.originalname.toLowerCase();
-    let wb;
-
-    if (originalName.endsWith('.csv')) {
-      const csvStr = buffer.toString('utf8');
-      wb = xlsx.read(csvStr, { type: 'string' });
-    } else {
-      wb = xlsx.read(buffer, { type: 'buffer' });
-    }
-
-    if (!wb.SheetNames.length) {
-      return res.status(400).json({ error: 'No sheets found in the file.' });
-    }
-
-    const ws = wb.Sheets[wb.SheetNames[0]];
-    const jsonData = xlsx.utils.sheet_to_json(ws);
-
-    if (!jsonData.length) {
-      return res.status(400).json({ error: 'No data found in the file.' });
-    }
-
-    uploadedDataFrame = jsonData;
-
-    return res.status(200).json({
-      preview: jsonData.slice(0, 5),
-      columns: Object.keys(jsonData[0] || {})
-    });
-  } catch (err) {
-    console.error('Error during upload:', err); // Log full error
-    return res.status(500).json({
-      error: 'Internal server error',
-      message: err.message,
-      stack: err.stack
-    });
-  }
-});
-
-// Apply Column Filters
-router.post('/filter', (req, res) => {
-  if (!uploadedDataFrame) return res.status(400).json({ error: 'No data available. Upload first.' });
-
-  const { filters } = req.body;
-  let filteredData = [...uploadedDataFrame];
-
-  try {
-    filters.forEach(({ column, operator, value, range }) => {
-      switch (operator) {
-        case 'equals':
-          filteredData = filteredData.filter(r => r[column] === value);
-          break;
-        case 'contains':
-          filteredData = filteredData.filter(r => String(r[column]).includes(value));
-          break;
-        case 'greater_than':
-          filteredData = filteredData.filter(r => Number(r[column]) > Number(value));
-          break;
-        case 'less_than':
-          filteredData = filteredData.filter(r => Number(r[column]) < Number(value));
-          break;
-        case 'between':
-          filteredData = filteredData.filter(r =>
-            Number(r[column]) >= Number(range.min) && Number(r[column]) <= Number(range.max)
-          );
-          break;
-        default:
-          break;
-      }
-    });
-
-    res.json({ filtered_preview: filteredData.slice(0, 5) });
-  } catch (err) {
-    res.status(500).json({ error: 'Error applying filters' });
-  }
-});
-
-// Apply Selected Columns
-router.post('/apply-column-changes', (req, res) => {
-  const { selectColumns } = req.body;
-  if (!uploadedDataFrame) return res.status(400).json({ error: 'No data available. Upload first.' });
-
-  const filteredData = uploadedDataFrame.map(r => {
-    const newRow = {};
-    selectColumns.forEach(col => (newRow[col] = r[col]));
-    return newRow;
-  });
-
-  res.status(200).json({ filtered_data: filteredData });
-});
-
-// Placement form submission (CV + Photo)
-router.post('/save', fileUpload.fields([{ name: 'cv' }, { name: 'photo' }]), savePlacementData); // ✅ Now this works
 
 export default router;
